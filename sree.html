@@ -1,0 +1,3411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSave · Food Waste Management Platform</title>
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+    /* =========================================
+       FOODSAVE ENTERPRISE - COMPLETE PLATFORM
+       WITH CONNECTED DISCOVERY & DASHBOARD
+       ========================================= */
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+        background: #f0f4f8;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        color: #1a2e1a;
+    }
+
+    .foodsave-platform {
+        max-width: 1440px;
+        width: 100%;
+        position: relative;
+    }
+
+    /* ===== LOGIN PAGE STYLES ===== */
+    .login-container {
+        max-width: 450px;
+        margin: 3rem auto;
+        background: white;
+        border-radius: 32px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 40px -20px rgba(0,32,0,0.3);
+        border: 1px solid #ecf1f4;
+        animation: slideUp 0.5s ease;
+    }
+
+    .login-logo {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .login-logo .corp-logo {
+        display: inline-block;
+        background: #0b3b0b;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.3px;
+        margin-bottom: 1rem;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .login-header h2 {
+        font-size: 2rem;
+        color: #1e3a1e;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+        color: #5e7e5e;
+    }
+
+    .login-form {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #5e7e5e;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+    .form-input:focus {
+        border-color: #1e4a1e;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(30,74,30,0.1);
+    }
+
+    .login-btn {
+        width: 100%;
+        background: #1e4a1e;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 0 #0f2f0f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .login-btn:hover {
+        background: #256b25;
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #0f2f0f;
+    }
+
+    .demo-credentials {
+        background: #f0f7f0;
+        border-radius: 16px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .demo-credentials p {
+        color: #1e4a1e;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .demo-credentials small {
+        color: #5e7e5e;
+        display: block;
+        margin: 0.3rem 0;
+    }
+
+    /* ===== MAIN APP CONTAINER ===== */
+    #mainAppContainer {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    /* ===== NAVIGATION BAR ===== */
+    .main-nav {
+        background: white;
+        border-radius: 0 0 24px 24px;
+        padding: 0.8rem 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 20px -8px rgba(0,32,0,0.08);
+        border: 1px solid #e6edf0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .nav-logo {
+        background: #0b3b0b;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: -0.3px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .nav-logo:hover {
+        background: #1e4a1e;
+        transform: translateY(-2px);
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 24px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #4a6f4a;
+        transition: all 0.2s;
+    }
+
+    .nav-item i {
+        font-size: 1.1rem;
+    }
+
+    .nav-item:hover {
+        background: #f0f7f0;
+        color: #1e4a1e;
+    }
+
+    .nav-item.active {
+        background: #1e4a1e;
+        color: white;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8fbf8;
+        padding: 6px 16px 6px 12px;
+        border-radius: 40px;
+        border: 1px solid #d0e0d0;
+        cursor: pointer;
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        background: #1e4a1e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: #1e3a1e;
+    }
+
+    .logout-btn {
+        background: none;
+        border: 1px solid #d0e0d0;
+        padding: 8px 16px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #c0392b;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logout-btn:hover {
+        background: #fff0f0;
+        border-color: #c0392b;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f0f7f0;
+        padding: 8px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #1e4a1e;
+        border: 1px solid #c8e0c8;
+        transition: all 0.2s;
+    }
+
+    .back-button:hover {
+        background: #e0f0e0;
+        transform: translateX(-2px);
+    }
+
+    /* ===== PAGE CONTAINERS ===== */
+    .page {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== HOME PAGE STYLES ===== */
+    .hero-section {
+        background: linear-gradient(135deg, #0b3b0b 0%, #1e6b1e 100%);
+        border-radius: 32px;
+        padding: 4rem 3rem;
+        margin-bottom: 3rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transform: translate(100px, -100px);
+    }
+
+    .hero-content {
+        max-width: 600px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .hero-stats {
+        display: flex;
+        gap: 3rem;
+        margin-top: 2rem;
+    }
+
+    .hero-stat-item {
+        text-align: center;
+    }
+
+    .hero-stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 0.3rem;
+    }
+
+    .hero-stat-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        text-align: center;
+        border: 1px solid #ecf1f4;
+        transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px -12px rgba(0,32,0,0.2);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: #f0f7f0;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: #1e4a1e;
+        font-size: 2rem;
+    }
+
+    .feature-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1e3a1e;
+        margin-bottom: 1rem;
+    }
+
+    .feature-description {
+        color: #5e7e5e;
+        line-height: 1.6;
+    }
+
+    /* ===== RESTAURANT DISCOVERY PAGE ===== */
+    .discovery-header {
+        background: white;
+        border-radius: 24px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid #ecf1f4;
+    }
+
+    .discovery-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .discovery-title h1 {
+        font-size: 2rem;
+        color: #1e3a1e;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .view-toggle {
+        display: flex;
+        gap: 8px;
+        background: #f0f7f0;
+        padding: 4px;
+        border-radius: 40px;
+    }
+
+    .view-toggle button {
+        padding: 8px 20px;
+        border: none;
+        background: none;
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #4a6f4a;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .view-toggle button.active {
+        background: #1e4a1e;
+        color: white;
+    }
+
+    .search-bar {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+        flex: 1;
+        position: relative;
+    }
+
+    .search-input i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #5e7e5e;
+    }
+
+    .search-input input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 48px;
+        border: 2px solid #e2e8f0;
+        border-radius: 60px;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+    .search-input input:focus {
+        border-color: #1e4a1e;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(30,74,30,0.08);
+    }
+
+    .filter-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .filter-chip {
+        padding: 8px 20px;
+        border-radius: 40px;
+        border: 1px solid #d0e0d0;
+        background: white;
+        font-weight: 600;
+        color: #4a6f4a;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-chip:hover {
+        background: #f0f7f0;
+        border-color: #1e4a1e;
+    }
+
+    .filter-chip.active {
+        background: #1e4a1e;
+        color: white;
+        border-color: #1e4a1e;
+    }
+
+    #mapContainer {
+        height: 400px;
+        border-radius: 24px;
+        margin-bottom: 2rem;
+        overflow: hidden;
+        border: 1px solid #ecf1f4;
+        display: none;
+    }
+
+    #mapContainer.active {
+        display: block;
+    }
+
+    .restaurant-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .restaurant-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid #ecf1f4;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+    .restaurant-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px -10px rgba(0,32,0,0.15);
+    }
+
+    .restaurant-image {
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .restaurant-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: #1e4a1e;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .restaurant-badge.verified {
+        background: #1e4a1e;
+    }
+
+    .restaurant-badge.new {
+        background: #f0b34b;
+    }
+
+    .live-indicator-small {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: #e74c3c;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    .restaurant-info {
+        padding: 1.5rem;
+    }
+
+    .restaurant-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+    }
+
+    .restaurant-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1e3a1e;
+    }
+
+    .restaurant-rating {
+        background: #f0f7f0;
+        padding: 4px 10px;
+        border-radius: 40px;
+        font-weight: 700;
+        color: #1e4a1e;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .restaurant-cuisine {
+        color: #5e7e5e;
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .cuisine-tag {
+        background: #f0f7f0;
+        padding: 4px 10px;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .restaurant-location {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #5e7e5e;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .restaurant-stats {
+        display: flex;
+        gap: 20px;
+        padding: 1rem 0;
+        border-top: 1px solid #ecf1f4;
+        border-bottom: 1px solid #ecf1f4;
+        margin-bottom: 1rem;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-weight: 700;
+        color: #1e4a1e;
+        font-size: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        color: #5e7e5e;
+    }
+
+    .restaurant-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .open-status {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .open-status.open {
+        color: #2ecc71;
+    }
+
+    .open-status.closed {
+        color: #e74c3c;
+    }
+
+    .connect-btn {
+        background: #1e4a1e;
+        color: white;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .connect-btn:hover {
+        background: #256b25;
+        transform: translateY(-2px);
+    }
+
+    .collect-btn {
+        background: #f0b34b;
+        color: white;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .collect-btn:hover {
+        background: #e09d3e;
+        transform: translateY(-2px);
+    }
+
+    /* Restaurant Profile Page */
+    .restaurant-profile {
+        background: white;
+        border-radius: 32px;
+        overflow: hidden;
+        border: 1px solid #ecf1f4;
+    }
+
+    .profile-cover {
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .profile-cover-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        padding: 2rem;
+        color: white;
+    }
+
+    .profile-cover-overlay h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-content {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    .profile-section {
+        margin-bottom: 2rem;
+    }
+
+    .profile-section h2 {
+        color: #1e3a1e;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        background: #f8fbf8;
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-item i {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1e4a1e;
+    }
+
+    .donation-item {
+        background: #f8fbf8;
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .donation-item h4 {
+        color: #1e3a1e;
+        margin-bottom: 0.3rem;
+    }
+
+    .donation-item p {
+        color: #5e7e5e;
+        font-size: 0.9rem;
+    }
+
+    .request-btn {
+        background: #1e4a1e;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .collect-donation-btn {
+        background: #f0b34b;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .review-card {
+        background: #f8fbf8;
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .reviewer-name {
+        font-weight: 600;
+        color: #1e3a1e;
+    }
+
+    .review-rating {
+        color: #f0b34b;
+    }
+
+    /* ===== DASHBOARD STYLES ===== */
+    .executive-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-radius: 24px;
+        padding: 0.8rem 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 20px -8px rgba(0,32,0,0.08);
+        border: 1px solid #e6edf0;
+    }
+
+    .brand-group {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .corp-logo {
+        background: #0b3b0b;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        letter-spacing: -0.3px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .live-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f0faf0;
+        padding: 8px 20px;
+        border-radius: 60px;
+        color: #0b3b0b;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border: 1px solid #c8e0c8;
+    }
+
+    .pulse-dot {
+        width: 10px;
+        height: 10px;
+        background: #2ecc71;
+        border-radius: 50%;
+        animation: pulse-green 2s infinite;
+    }
+
+    @keyframes pulse-green {
+        0% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.1); background: #27ae60; }
+    }
+
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .metric-card {
+        background: white;
+        border-radius: 24px;
+        padding: 1.6rem 1.4rem;
+        box-shadow: 0 4px 12px rgba(0,20,0,0.02);
+        border: 1px solid #ecf1f4;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 6px;
+        background: #1e4a1e;
+        opacity: 0.7;
+    }
+
+    .metric-card.warning-mode::before {
+        background: #c0392b;
+        width: 8px;
+        animation: alert-pulse 1.2s infinite;
+    }
+
+    @keyframes alert-pulse {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; background: #e74c3c; }
+    }
+
+    .metric-icon {
+        width: 60px;
+        height: 60px;
+        background: #f0f7f0;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.2rem;
+        color: #1e4a1e;
+        font-size: 1.8rem;
+    }
+
+    .metric-content {
+        flex: 1;
+    }
+
+    .metric-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #5e7e5e;
+        margin-bottom: 6px;
+    }
+
+    .metric-value {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #0a2a0a;
+        line-height: 1;
+    }
+
+    .metric-unit {
+        font-size: 0.95rem;
+        color: #5e7e5e;
+        margin-left: 4px;
+        font-weight: 500;
+    }
+
+    .trend-badge {
+        margin-left: 10px;
+        font-size: 0.75rem;
+        background: #ecf9ec;
+        padding: 4px 10px;
+        border-radius: 60px;
+        color: #1e4a1e;
+        font-weight: 600;
+    }
+
+    .alert-command {
+        background: white;
+        border-radius: 28px;
+        padding: 1.2rem 2rem;
+        margin-bottom: 2.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #e1ecf0;
+        box-shadow: 0 6px 0 #d0dcd0;
+    }
+
+    .alert-config {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .threshold-module {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: #f8fbf8;
+        padding: 0.4rem 1.8rem 0.4rem 1.2rem;
+        border-radius: 60px;
+        border: 1px solid #d0e0d0;
+    }
+
+    .threshold-module i {
+        color: #1e4a1e;
+        font-size: 1.1rem;
+    }
+
+    .threshold-value {
+        background: #1e4a1e;
+        color: white;
+        padding: 6px 22px;
+        border-radius: 60px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+
+    .buzzer-module {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: #f8fbf8;
+        padding: 0.4rem 1.8rem;
+        border-radius: 60px;
+        border: 1px solid #d0e0d0;
+    }
+
+    .buzzer-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        color: #1e3a1e;
+    }
+
+    .switch-pro {
+        position: relative;
+        display: inline-block;
+        width: 54px;
+        height: 28px;
+        margin-left: 4px;
+    }
+    .switch-pro input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider-pro {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e0;
+        transition: .2s;
+        border-radius: 34px;
+    }
+    .slider-pro:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .2s;
+        border-radius: 50%;
+    }
+    input:checked + .slider-pro {
+        background-color: #1e4a1e;
+    }
+    input:checked + .slider-pro:before {
+        transform: translateX(26px);
+    }
+
+    .silence-btn {
+        background: none;
+        border: none;
+        color: #718096;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 6px;
+    }
+
+    .workspace {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2.2rem;
+    }
+
+    .data-panel {
+        background: white;
+        border-radius: 28px;
+        padding: 1.8rem;
+        border: 1px solid #ecf1f4;
+        box-shadow: 0 8px 18px -8px rgba(0,32,0,0.04);
+    }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px solid #f0f5fa;
+    }
+
+    .panel-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .panel-title i {
+        font-size: 1.4rem;
+        background: #f0f7f0;
+        padding: 12px;
+        border-radius: 16px;
+        color: #1e4a1e;
+    }
+
+    .panel-title h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1e3a1e;
+    }
+
+    .badge-corp {
+        background: #ecf9ec;
+        padding: 6px 20px;
+        border-radius: 60px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #1e4a1e;
+        letter-spacing: 0.5px;
+    }
+
+    .partner-badge {
+        background: #f0b34b;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 8px;
+    }
+
+    .easy-add-toolbar {
+        background: #f8fbf8;
+        border-radius: 60px;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #d0e0d0;
+    }
+
+    .easy-add-badge {
+        background: #1e4a1e;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 60px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .voice-btn {
+        background: #1e4a1e;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 0 #0f2f0f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .voice-btn:hover {
+        background: #256b25;
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #0f2f0f;
+    }
+
+    .voice-btn.listening {
+        background: #c0392b;
+        animation: voice-pulse 1.2s infinite;
+    }
+
+    @keyframes voice-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); background: #e74c3c; }
+    }
+
+    .quick-btn {
+        background: #f0b34b;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 0 #b87e2e;
+        transition: all 0.2s;
+    }
+
+    .quick-btn:hover {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #b87e2e;
+    }
+
+    .quick-panel {
+        display: none;
+        background: #f0f7f0;
+        border-radius: 20px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .quick-item-btn {
+        background: white;
+        border: 2px solid #e2e8f0;
+        padding: 8px 16px;
+        border-radius: 60px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1e3a1e;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.1s;
+        box-shadow: 0 3px 0 #d0dcd0;
+    }
+
+    .quick-item-btn:hover {
+        background: #f0f7f0;
+        border-color: #1e4a1e;
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 #d0dcd0;
+    }
+
+    .quick-waste-btn {
+        background: #fff8f0;
+        border-color: #ffd7b3;
+        color: #8b4e4e;
+    }
+
+    .input-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+        margin-bottom: 1.8rem;
+    }
+
+    .input-group-pro {
+        flex: 1;
+    }
+
+    .input-group-pro label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #5e7e5e;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .pro-input {
+        width: 100%;
+        padding: 0.8rem 1.2rem;
+        border: 1.8px solid #e2e8f0;
+        border-radius: 18px;
+        font-size: 0.95rem;
+        transition: all 0.1s;
+        background: white;
+    }
+
+    .pro-input:focus {
+        border-color: #1e4a1e;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(30,74,30,0.08);
+    }
+
+    .btn-pro {
+        background: #1e4a1e;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.8rem;
+        border-radius: 18px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.1s;
+        border: 1px solid #2d5e2d;
+        box-shadow: 0 4px 0 #0f2f0f;
+    }
+
+    .btn-pro:hover {
+        background: #256b25;
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #0f2f0f;
+    }
+
+    .btn-outline-pro {
+        background: white;
+        color: #1e4a1e;
+        border: 1.8px solid #1e4a1e;
+        box-shadow: none;
+    }
+
+    .btn-outline-pro:hover {
+        background: #f0f7f0;
+        transform: translateY(2px);
+        box-shadow: none;
+    }
+
+    .data-table-pro {
+        max-height: 260px;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+    }
+
+    .table-row-pro {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 0.2rem;
+        border-bottom: 1px solid #f0f5fa;
+    }
+
+    .row-primary {
+        font-weight: 600;
+        color: #1e3a1e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .row-secondary {
+        font-size: 0.7rem;
+        color: #6f956f;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .source-badge {
+        background: #f0b34b20;
+        color: #b87e2e;
+        padding: 2px 8px;
+        border-radius: 40px;
+        font-size: 0.65rem;
+        font-weight: 600;
+    }
+
+    .weight-badge {
+        background: #f0f7f0;
+        padding: 4px 16px;
+        border-radius: 60px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #1e4a1e;
+    }
+
+    .delete-pro {
+        background: none;
+        border: none;
+        color: #a0b8a0;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 8px;
+    }
+
+    .delete-pro:hover {
+        color: #c0392b;
+        background: #fff0f0;
+    }
+
+    .empty-state-pro {
+        padding: 2rem;
+        text-align: center;
+        background: #fafcfa;
+        border-radius: 20px;
+        color: #6b8b6b;
+        border: 1px dashed #cbd5e0;
+    }
+
+    .performance-panel {
+        background: white;
+        border-radius: 28px;
+        padding: 1.8rem 2rem;
+        border: 1px solid #ecf1f4;
+        box-shadow: 0 12px 20px -12px rgba(0,32,0,0.04);
+    }
+
+    .performance-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+    }
+
+    .diversion-meter {
+        margin-bottom: 1.5rem;
+    }
+
+    .meter-label-pro {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.6rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #3b5e3b;
+    }
+
+    .meter-track {
+        height: 14px;
+        background: #e2e8f0;
+        border-radius: 100px;
+        overflow: hidden;
+    }
+
+    .meter-fill-pro {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #1e4a1e, #3e8e3e);
+        border-radius: 100px;
+        transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    .stats-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #ecf1f4;
+    }
+
+    .co2-badge-pro {
+        background: #ecf9ec;
+        padding: 8px 24px;
+        border-radius: 60px;
+        font-weight: 700;
+        color: #1e4a1e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .alert-bar-pro {
+        background: #fef9f2;
+        border-radius: 18px;
+        padding: 0.9rem 2rem;
+        margin-top: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-left: 8px solid #f0b34b;
+        border: 1px solid #ffebc2;
+        border-left-width: 10px;
+    }
+
+    .alert-bar-pro.warning-level {
+        background: #fff0f0;
+        border-left-color: #c0392b;
+        border-color: #ffcdcd;
+    }
+
+    .tooltip-pro {
+        position: relative;
+        cursor: help;
+        border-bottom: 1px dashed #a0c0a0;
+    }
+
+    .tooltip-pro:hover:after {
+        content: attr(data-tooltip);
+        position: absolute;
+        background: #1e3a1e;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        bottom: 150%;
+        left: 0;
+        white-space: nowrap;
+        z-index: 100;
+    }
+
+    /* Toast Notification */
+    .toast-message {
+        font-family: 'Inter', sans-serif;
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e4a1e;
+        color: white;
+        padding: 12px 28px;
+        border-radius: 60px;
+        font-weight: 600;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideUp 0.3s ease;
+        border: 2px solid white;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1200px) {
+        .metric-grid,
+        .features-grid,
+        .restaurant-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .profile-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .workspace {
+            grid-template-columns: 1fr;
+        }
+        
+        .alert-command {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .nav-left {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .nav-menu {
+            flex-wrap: wrap;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .search-bar {
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 0.5rem;
+        }
+        
+        .metric-grid,
+        .features-grid,
+        .restaurant-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .input-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .hero-section {
+            padding: 2rem 1rem;
+        }
+        
+        .hero-stats {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .discovery-header {
+            padding: 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-container">
+        <div class="login-logo">
+            <div class="corp-logo">
+                <i class="fas fa-leaf"></i> FoodSave
+            </div>
+        </div>
+        
+        <div class="login-header">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to discover partner restaurants</p>
+        </div>
+
+        <!-- Universal Login Form -->
+        <div class="login-form">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email or Username</label>
+                <input type="text" id="loginUsername" class="form-input" placeholder="Enter your email" value="john.doe@example.com">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" value="password123">
+            </div>
+            <button class="login-btn" onclick="handleUniversalLogin()">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+            
+            <div class="demo-credentials">
+                <p><i class="fas fa-info-circle"></i> Demo Access</p>
+                <small>Just click Sign In to explore</small>
+                <small style="margin-top: 8px; color: #1e4a1e;">← Find restaurants, collect food, track impact</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="mainAppContainer">
+        <!-- NAVIGATION BAR -->
+        <div class="main-nav">
+            <div class="nav-left">
+                <div class="nav-logo" onclick="navigateTo('discovery')">
+                    <i class="fas fa-leaf"></i> FoodSave
+                </div>
+                <div class="nav-menu">
+                    <div class="nav-item" onclick="navigateTo('discovery')" id="nav-discovery">
+                        <i class="fas fa-search"></i> Discover
+                    </div>
+                    <div class="nav-item" onclick="navigateTo('dashboard')" id="nav-dashboard">
+                        <i class="fas fa-chart-line"></i> My Dashboard
+                    </div>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="back-button" id="backButton" onclick="goBack()" style="display: none;">
+                    <i class="fas fa-arrow-left"></i> Back
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <span class="user-name" id="userName">John Doe</span>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- RESTAURANT DISCOVERY PAGE -->
+        <div id="discovery-page" class="page active">
+            <div class="discovery-header">
+                <div class="discovery-title">
+                    <h1>
+                        <i class="fas fa-utensils"></i> 
+                        Partner Restaurants
+                    </h1>
+                    <div class="view-toggle">
+                        <button class="active" onclick="toggleView('grid')" id="gridViewBtn">
+                            <i class="fas fa-th"></i> Grid
+                        </button>
+                        <button onclick="toggleView('map')" id="mapViewBtn">
+                            <i class="fas fa-map"></i> Map
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="restaurantSearch" placeholder="Search by restaurant name, cuisine, or location..." onkeyup="filterRestaurants()">
+                    </div>
+                </div>
+
+                <div class="filter-buttons">
+                    <button class="filter-chip active" onclick="filterByCuisine('all')" id="filterAll">All</button>
+                    <button class="filter-chip" onclick="filterByCuisine('italian')" id="filterItalian">🇮🇹 Italian</button>
+                    <button class="filter-chip" onclick="filterByCuisine('japanese')" id="filterJapanese">🇯🇵 Japanese</button>
+                    <button class="filter-chip" onclick="filterByCuisine('mexican')" id="filterMexican">🇲🇽 Mexican</button>
+                    <button class="filter-chip" onclick="filterByCuisine('indian')" id="filterIndian">🇮🇳 Indian</button>
+                    <button class="filter-chip" onclick="filterByCuisine('chinese')" id="filterChinese">🇨🇳 Chinese</button>
+                    <button class="filter-chip" onclick="filterByRating(4)" id="filterRating">⭐ 4.5+ Rating</button>
+                    <button class="filter-chip" onclick="filterByOpenNow()" id="filterOpen">🕒 Open Now</button>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div id="mapContainer"></div>
+
+            <!-- Restaurant Grid -->
+            <div id="restaurantGrid" class="restaurant-grid"></div>
+
+            <!-- Restaurant Profile Modal -->
+            <div id="restaurantProfile" style="display: none;"></div>
+        </div>
+
+        <!-- DASHBOARD PAGE (Connected to Discovery) -->
+        <div id="dashboard-page" class="page">
+            <div class="executive-header">
+                <div class="brand-group">
+                    <div class="corp-logo">
+                        <i class="fas fa-leaf"></i> FoodSave<span style="font-weight: 300; margin-left: 4px;">| My Impact</span>
+                    </div>
+                    <div class="live-indicator">
+                        <span class="pulse-dot"></span>
+                        LIVE TRACKING
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 24px;">
+                    <span style="font-size: 0.9rem; color: #4f7a4f;"><i class="far fa-clock"></i> <span id="currentDateTime"></span></span>
+                    <span style="background: #edf2f7; padding: 8px 18px; border-radius: 60px; font-weight: 600; font-size: 0.8rem;">
+                        <i class="fas fa-hand-holding-heart"></i> NGO MODE
+                    </span>
+                </div>
+            </div>
+
+            <!-- Partner Restaurants Summary -->
+            <div style="background: white; border-radius: 24px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid #ecf1f4;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="color: #1e3a1e; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-handshake"></i> My Partner Restaurants
+                    </h3>
+                    <button class="btn-pro btn-outline-pro" onclick="navigateTo('discovery')" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-plus"></i> Find More
+                    </button>
+                </div>
+                <div id="partnerRestaurantsList" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- KPI METRICS - Connected to collected food -->
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="metric-content">
+                        <div class="metric-label">Food Collected</div>
+                        <div><span class="metric-value" id="proDonated">0.0</span><span class="metric-unit">kg</span></div>
+                        <span class="trend-badge" id="collectedTrend"><i class="fas fa-arrow-up"></i> from partners</span>
+                    </div>
+                </div>
+                <div class="metric-card" id="proWasteCard">
+                    <div class="metric-icon"><i class="fas fa-trash-alt"></i></div>
+                    <div class="metric-content">
+                        <div class="metric-label">Waste Generated</div>
+                        <div><span class="metric-value" id="proWaste">0.0</span><span class="metric-unit">kg</span></div>
+                        <span class="trend-badge" id="wasteTrendBadge"><i class="fas fa-minus"></i> stable</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-chart-pie"></i></div>
+                    <div class="metric-content">
+                        <div class="metric-label">Diversion Rate</div>
+                        <div><span class="metric-value" id="proDiverted">0</span><span class="metric-unit">%</span></div>
+                        <span class="trend-badge"><i class="fas fa-check-circle"></i> efficiency</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="metric-content">
+                        <div class="metric-label">CO₂ Savings</div>
+                        <div><span class="metric-value" id="proCo2">0.0</span><span class="metric-unit">kg</span></div>
+                        <span class="trend-badge"><i class="fas fa-tree"></i> environmental</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALERT COMMAND CENTER -->
+            <div class="alert-command">
+                <div class="alert-config">
+                    <div class="threshold-module">
+                        <i class="fas fa-sliders-h"></i>
+                        <span style="font-weight: 600; color: #1e3a1e;">Waste Alert Limit</span>
+                        <input type="range" id="proThresholdSlider" min="0" max="100" value="25" step="1">
+                        <span class="threshold-value" id="proThresholdValue">25 kg</span>
+                    </div>
+                    <div class="buzzer-module">
+                        <div class="buzzer-status">
+                            <i class="fas fa-volume-up" style="color: #1e4a1e;"></i>
+                            <span>Buzzer</span>
+                        </div>
+                        <label class="switch-pro">
+                            <input type="checkbox" id="proBuzzerToggle" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                        <button id="proSilenceBtn" class="silence-btn"><i class="fas fa-bell-slash"></i></button>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <span style="background: #f0f7f0; padding: 8px 16px; border-radius: 60px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fas fa-bell"></i> STATUS: <span id="proBuzzerState">ARMED</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- WORKSPACE: COLLECTED FOOD & WASTE -->
+            <div class="workspace">
+                <!-- COLLECTED FOOD PANEL (From Restaurants) -->
+                <div class="data-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-apple-alt"></i>
+                            <h2>Food Collected from Partners</h2>
+                        </div>
+                        <span class="badge-corp"><i class="fas fa-arrow-down"></i> INVENTORY</span>
+                    </div>
+                    
+                    <!-- VOICE + QUICK ADD TOOLBAR -->
+                    <div class="easy-add-toolbar">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="easy-add-badge">
+                                <i class="fas fa-microphone"></i> QUICK ADD
+                            </span>
+                            <span style="font-size: 0.8rem; color: #4a6f4a;">Add collected food</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="voice-btn" onclick="startVoiceInput('proDonationName', false)" title="Speak food name">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button class="quick-btn" onclick="showQuickDonations()" title="Quick add common foods">
+                                <i class="fas fa-bolt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- QUICK DONATION PANEL -->
+                    <div id="quickDonationPanel" class="quick-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-weight: 700; color: #1e4a1e;"><i class="fas fa-bolt"></i> QUICK ADD FOOD</span>
+                            <button onclick="closeQuickDonations()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="quick-item-btn" onclick="quickAddDonation('🍎 Fresh Apples', 1.0, 'Green Leaf Bistro')">🍎 Apples (1kg)</button>
+                            <button class="quick-item-btn" onclick="quickAddDonation('🍌 Ripe Bananas', 0.8, 'Pizza Paradise')">🍌 Bananas (0.8kg)</button>
+                            <button class="quick-item-btn" onclick="quickAddDonation('🍞 Sourdough', 0.6, 'Sushi Master')">🍞 Bread (0.6kg)</button>
+                            <button class="quick-item-btn" onclick="quickAddDonation('🥕 Baby Carrots', 0.5, 'Taco Fiesta')">🥕 Carrots (0.5kg)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-group-pro">
+                            <label>Food Item</label>
+                            <input type="text" id="proDonationName" class="pro-input" placeholder="e.g., Fresh Vegetables" value="Mixed Vegetables">
+                        </div>
+                        <div class="input-group-pro" style="flex: 0.5;">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="proDonationKg" class="pro-input" step="0.1" min="0.1" value="2.5">
+                        </div>
+                        <div class="input-group-pro" style="flex: 0.7;">
+                            <label>From Restaurant</label>
+                            <select id="donationSource" class="pro-input">
+                                <option value="Green Leaf Bistro">Green Leaf Bistro</option>
+                                <option value="Pizza Paradise">Pizza Paradise</option>
+                                <option value="Sushi Master">Sushi Master</option>
+                                <option value="Taco Fiesta">Taco Fiesta</option>
+                                <option value="Curry House">Curry House</option>
+                                <option value="Dragon Wok">Dragon Wok</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn-pro" id="proAddDonationBtn"><i class="fas fa-plus"></i> Add</button>
+                        </div>
+                    </div>
+                    <div class="data-table-pro" id="proDonationTable"></div>
+                </div>
+                
+                <!-- WASTE PANEL -->
+                <div class="data-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-dumpster"></i>
+                            <h2>Waste Generated</h2>
+                        </div>
+                        <span class="badge-corp" style="background: #fde7e7; color: #8b4e4e;"><i class="fas fa-arrow-up"></i> DISPOSED</span>
+                    </div>
+                    
+                    <!-- VOICE + QUICK ACCESS TOOLBAR FOR WASTE -->
+                    <div class="easy-add-toolbar" style="background: #fff8f0; border-color: #ffd7b3;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="easy-add-badge" style="background: #8b4e4e;">
+                                <i class="fas fa-microphone"></i> QUICK LOG
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="voice-btn" onclick="startVoiceInput('proWasteName', false)" title="Speak waste name" style="background: #8b4e4e; box-shadow: 0 4px 0 #5a3535;">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button class="quick-btn" onclick="showQuickWaste()" style="background: #c17878;" title="Quick add common waste">
+                                <i class="fas fa-bolt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- QUICK WASTE PANEL -->
+                    <div id="quickWastePanel" class="quick-panel" style="background: #fff3f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <span style="font-weight: 700; color: #8b4e4e;"><i class="fas fa-bolt"></i> QUICK ADD WASTE</span>
+                            <button onclick="closeQuickWaste()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="quick-item-btn quick-waste-btn" onclick="quickAddWaste('🍌 Banana Peels', 0.3)">🍌 Banana Peels (0.3kg)</button>
+                            <button class="quick-item-btn quick-waste-btn" onclick="quickAddWaste('🥚 Egg Shells', 0.2)">🥚 Egg Shells (0.2kg)</button>
+                            <button class="quick-item-btn quick-waste-btn" onclick="quickAddWaste('☕ Coffee Grounds', 0.4)">☕ Coffee Grounds (0.4kg)</button>
+                            <button class="quick-item-btn quick-waste-btn" onclick="quickAddWaste('🥕 Vegetable Scraps', 0.5)">🥕 Veg Scraps (0.5kg)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-group-pro">
+                            <label>Waste Item</label>
+                            <input type="text" id="proWasteName" class="pro-input" placeholder="e.g., Food scraps" value="Vegetable Peels">
+                        </div>
+                        <div class="input-group-pro" style="flex: 0.5;">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="proWasteKg" class="pro-input" step="0.1" min="0.1" value="0.8">
+                        </div>
+                        <div>
+                            <button class="btn-pro btn-outline-pro" id="proAddWasteBtn"><i class="fas fa-clipboard"></i> Log</button>
+                        </div>
+                    </div>
+                    <div class="data-table-pro" id="proWasteTable"></div>
+                </div>
+            </div>
+
+            <!-- PERFORMANCE PANEL -->
+            <div class="performance-panel">
+                <div class="performance-header">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <i class="fas fa-chart-line" style="font-size: 1.4rem; color: #1e4a1e;"></i>
+                        <span style="font-weight: 700; font-size: 1.1rem; color: #1e3a1e;">Impact Performance</span>
+                    </div>
+                    <div id="proAlertBadge" style="background: #edf2f7; padding: 8px 24px; border-radius: 60px; font-weight: 600; font-size: 0.85rem;">
+                        <i class="fas fa-shield-alt"></i> NORMAL
+                    </div>
+                </div>
+                
+                <div class="diversion-meter">
+                    <div class="meter-label-pro">
+                        <span>Food Diversion Rate</span>
+                        <span style="font-weight: 700; color: #1e4a1e;" id="proMeterLabel">0%</span>
+                    </div>
+                    <div class="meter-track">
+                        <div class="meter-fill-pro" id="proMeterFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div style="display: flex; gap: 32px;">
+                        <div><span style="font-size: 0.8rem; color: #5e7e5e;">Partner Restaurants</span><br><span style="font-weight: 800; color: #1e3a1e;" id="partnerCount">0</span></div>
+                        <div><span style="font-size: 0.8rem; color: #5e7e5e;">Waste Threshold</span><br><span style="font-weight: 800; color: #1e3a1e;" id="proStatThreshold">25 kg</span></div>
+                        <div><span style="font-size: 0.8rem; color: #5e7e5e;">CO₂ Saved</span><br><span style="font-weight: 800; color: #1e4a1e;" id="proStatCo2">0.0 kg</span></div>
+                    </div>
+                    <div class="co2-badge-pro">
+                        <i class="fas fa-cloud"></i> <span id="proCo2Badge">0.0</span> kg CO₂ equivalent
+                    </div>
+                </div>
+
+                <!-- ALERT BAR -->
+                <div class="alert-bar-pro" id="proAlertBar">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <i class="fas fa-bell" style="color: #f0b34b;" id="proAlertIcon"></i>
+                        <span id="proAlertMessage">Waste below threshold. All systems normal.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <span style="font-weight: 600;" id="proAlertThresholdDisplay">25 kg limit</span>
+                        <span id="proBuzzerVisual" style="background: #c8e0c8; padding: 4px 12px; border-radius: 60px; font-size: 0.75rem; font-weight: 700;">
+                            <i class="fas fa-check"></i> OK
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS for Maps -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+    // =============================================
+    // FOODSAVE ENTERPRISE - CONNECTED DISCOVERY & DASHBOARD
+    // =============================================
+
+    (function() {
+        "use strict";
+
+        // ========== APP STATE ==========
+        let isLoggedIn = false;
+        let currentUser = null;
+        let currentPage = 'discovery';
+        let pageHistory = ['discovery'];
+        let map = null;
+        let markers = [];
+        let currentView = 'grid';
+        let currentCuisineFilter = 'all';
+        let currentRatingFilter = 0;
+        let currentOpenFilter = false;
+        let selectedRestaurant = null;
+        
+        // Partner restaurants (connected from discovery)
+        let partnerRestaurants = [
+            { id: 1, name: "Green Leaf Bistro", connected: true },
+            { id: 2, name: "Pizza Paradise", connected: true }
+        ];
+
+        // ========== RESTAURANT DATABASE ==========
+        const restaurants = [
+            {
+                id: 1,
+                name: "Pizza Paradise",
+                cuisine: ["Italian", "Pizza"],
+                rating: 4.5,
+                reviews: 245,
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+                location: "123 Main St, Downtown",
+                lat: 40.7128,
+                lng: -74.0060,
+                distance: "0.5 km",
+                hours: "11:00 AM - 10:00 PM",
+                open: true,
+                verified: true,
+                new: false,
+                live: true,
+                stats: {
+                    donated: 1250,
+                    meals: 2500,
+                    co2: 3125,
+                    partners: 8
+                },
+                donations: [
+                    { item: "Fresh Margherita Pizza", portions: 3, kg: 2.5, pickup: "8:00 PM" },
+                    { item: "Garden Salad", portions: 5, kg: 1.8, pickup: "7:30 PM" }
+                ],
+                reviews: [
+                    { user: "FoodForAll NGO", rating: 5, comment: "Great partner, always fresh food!" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Sushi Master",
+                cuisine: ["Japanese", "Sushi"],
+                rating: 4.8,
+                reviews: 189,
+                image: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=500",
+                location: "456 Oak Ave, Midtown",
+                lat: 40.7282,
+                lng: -73.9942,
+                distance: "1.2 km",
+                hours: "12:00 PM - 9:00 PM",
+                open: true,
+                verified: true,
+                new: false,
+                live: false,
+                stats: {
+                    donated: 890,
+                    meals: 1780,
+                    co2: 2225,
+                    partners: 6
+                },
+                donations: [
+                    { item: "Sushi Rolls Assorted", portions: 8, kg: 1.5, pickup: "6:00 PM" }
+                ],
+                reviews: [
+                    { user: "Helping Hands", rating: 5, comment: "Excellent quality Japanese food" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Taco Fiesta",
+                cuisine: ["Mexican", "Fast Food"],
+                rating: 4.3,
+                reviews: 156,
+                image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=500",
+                location: "789 Pine St, Uptown",
+                lat: 40.7580,
+                lng: -73.9855,
+                distance: "2.0 km",
+                hours: "10:00 AM - 11:00 PM",
+                open: true,
+                verified: false,
+                new: true,
+                live: true,
+                stats: {
+                    donated: 450,
+                    meals: 900,
+                    co2: 1125,
+                    partners: 3
+                },
+                donations: [
+                    { item: "Taco Kit", portions: 10, kg: 3.0, pickup: "7:00 PM" }
+                ],
+                reviews: [
+                    { user: "City Mission", rating: 4, comment: "Good food, new but promising partner" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Curry House",
+                cuisine: ["Indian", "Vegetarian"],
+                rating: 4.6,
+                reviews: 312,
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500",
+                location: "321 Elm St, East Side",
+                lat: 40.7359,
+                lng: -73.9911,
+                distance: "1.5 km",
+                hours: "11:30 AM - 10:00 PM",
+                open: false,
+                verified: true,
+                new: false,
+                live: false,
+                stats: {
+                    donated: 2100,
+                    meals: 4200,
+                    co2: 5250,
+                    partners: 12
+                },
+                donations: [
+                    { item: "Vegetable Curry", portions: 8, kg: 3.2, pickup: "Tomorrow 12PM" }
+                ],
+                reviews: [
+                    { user: "Food Bank", rating: 5, comment: "Best Indian food donations in town" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Dragon Wok",
+                cuisine: ["Chinese", "Asian"],
+                rating: 4.4,
+                reviews: 278,
+                image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=500",
+                location: "555 Cedar Rd, West Side",
+                lat: 40.7415,
+                lng: -74.0023,
+                distance: "2.3 km",
+                hours: "11:00 AM - 10:30 PM",
+                open: true,
+                verified: true,
+                new: false,
+                live: true,
+                stats: {
+                    donated: 1675,
+                    meals: 3350,
+                    co2: 4187.5,
+                    partners: 9
+                },
+                donations: [
+                    { item: "Fried Rice", portions: 6, kg: 2.4, pickup: "7:15 PM" }
+                ],
+                reviews: [
+                    { user: "Community Meals", rating: 5, comment: "Always generous portions" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Green Leaf Bistro",
+                cuisine: ["American", "Healthy"],
+                rating: 4.7,
+                reviews: 423,
+                image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500",
+                location: "777 Maple Ave, Downtown",
+                lat: 40.7165,
+                lng: -74.0028,
+                distance: "0.8 km",
+                hours: "10:30 AM - 12:00 AM",
+                open: true,
+                verified: true,
+                new: false,
+                live: true,
+                stats: {
+                    donated: 1980,
+                    meals: 3960,
+                    co2: 4950,
+                    partners: 8
+                },
+                donations: [
+                    { item: "Fresh Salads", portions: 8, kg: 2.5, pickup: "7:30 PM" }
+                ],
+                reviews: [
+                    { user: "Shelter Support", rating: 5, comment: "Excellent partner, always fresh" }
+                ]
+            }
+        ];
+
+        // ========== COLLECTED FOOD & WASTE DATA ==========
+        let collectedFood = [
+            { id: 'd1-' + Date.now(), name: 'Fresh Vegetables', kg: 3.2, source: 'Green Leaf Bistro', date: new Date() },
+            { id: 'd2-' + Date.now(), name: 'Bread Loaves', kg: 1.5, source: 'Pizza Paradise', date: new Date() },
+            { id: 'd3-' + Date.now(), name: 'Rice & Curry', kg: 2.8, source: 'Curry House', date: new Date() }
+        ];
+        
+        let wasteLogs = [
+            { id: 'w1-' + Date.now(), name: 'Vegetable Peels', kg: 0.8, date: new Date() },
+            { id: 'w2-' + Date.now(), name: 'Packaging Waste', kg: 0.4, date: new Date() },
+            { id: 'w3-' + Date.now(), name: 'Food Scraps', kg: 0.6, date: new Date() }
+        ];
+
+        let thresholdKg = 25;
+        let buzzerEnabled = true;
+        let alertActive = false;
+        let audioCtx = null;
+        let lastBuzz = 0;
+
+        // ========== CHECK LOGIN STATUS ==========
+        function checkLoginStatus() {
+            const savedUser = sessionStorage.getItem('foodsave_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    isLoggedIn = true;
+                    showMainApp();
+                    updateUserInfo();
+                    initializeDiscovery();
+                    updatePartnerList();
+                    refreshDashboardUI();
+                    navigateTo('discovery');
+                } catch (e) {
+                    showLoginPage();
+                }
+            } else {
+                showLoginPage();
+            }
+        }
+
+        // ========== UI CONTROL FUNCTIONS ==========
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('mainAppContainer').style.display = 'none';
+        }
+
+        function showMainApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainAppContainer').style.display = 'block';
+        }
+
+        // ========== UNIVERSAL LOGIN ==========
+        window.handleUniversalLogin = function() {
+            const username = document.getElementById('loginUsername').value.trim();
+            
+            if (username === '') {
+                showToast('❌ Please enter username or email', 'error');
+                return;
+            }
+            
+            const user = {
+                username: username,
+                email: username.includes('@') ? username : username + '@example.com',
+                name: username.split('@')[0].split('.').map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' '),
+                loginTime: new Date().toISOString(),
+                isLoggedIn: true
+            };
+            
+            sessionStorage.setItem('foodsave_user', JSON.stringify(user));
+            
+            currentUser = user;
+            isLoggedIn = true;
+            
+            showMainApp();
+            updateUserInfo();
+            initializeDiscovery();
+            updatePartnerList();
+            refreshDashboardUI();
+            navigateTo('discovery');
+            
+            showToast(`✅ Welcome, ${user.name}! Find restaurants to partner with.`);
+        };
+
+        // ========== LOGOUT ==========
+        window.handleLogout = function() {
+            sessionStorage.removeItem('foodsave_user');
+            isLoggedIn = false;
+            currentUser = null;
+            
+            showLoginPage();
+            
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            showToast('👋 Logged out successfully');
+        };
+
+        // ========== UPDATE USER INFO ==========
+        function updateUserInfo() {
+            if (currentUser) {
+                const userName = document.getElementById('userName');
+                const userAvatar = document.getElementById('userAvatar');
+                
+                const nameParts = currentUser.name.split(' ');
+                let initials = '';
+                if (nameParts.length >= 2) {
+                    initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+                } else {
+                    initials = currentUser.name.substring(0, 2).toUpperCase();
+                }
+                
+                userAvatar.textContent = initials.toUpperCase();
+                userName.textContent = currentUser.name;
+            }
+        }
+
+        // ========== NAVIGATION ==========
+        window.navigateTo = function(page) {
+            if (!isLoggedIn) {
+                showLoginPage();
+                return;
+            }
+            
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            document.getElementById(page + '-page').classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('nav-' + page).classList.add('active');
+            
+            const backButton = document.getElementById('backButton');
+            if (page === 'discovery') {
+                backButton.style.display = 'none';
+                pageHistory = ['discovery'];
+            } else {
+                backButton.style.display = 'flex';
+                if (pageHistory[pageHistory.length - 1] !== page) {
+                    pageHistory.push(page);
+                }
+            }
+            
+            currentPage = page;
+            
+            if (page === 'dashboard') {
+                refreshDashboardUI();
+                updatePartnerList();
+            }
+            
+            if (page === 'discovery') {
+                initializeDiscovery();
+            }
+            
+            showToast('📍 Navigated to ' + (page === 'discovery' ? 'Restaurant Discovery' : 'My Dashboard'));
+        };
+
+        window.goBack = function() {
+            if (pageHistory.length > 1) {
+                pageHistory.pop();
+                const previousPage = pageHistory[pageHistory.length - 1];
+                navigateTo(previousPage);
+            } else {
+                navigateTo('discovery');
+            }
+        };
+
+        // ========== UPDATE PARTNER LIST IN DASHBOARD ==========
+        function updatePartnerList() {
+            const partnerList = document.getElementById('partnerRestaurantsList');
+            if (!partnerList) return;
+            
+            if (partnerRestaurants.length === 0) {
+                partnerList.innerHTML = `
+                    <div style="background: #f8fbf8; padding: 1rem; border-radius: 16px; text-align: center; width: 100%;">
+                        <p style="color: #5e7e5e;">No partner restaurants yet. <button onclick="navigateTo('discovery')" style="background: none; border: none; color: #1e4a1e; font-weight: 600; cursor: pointer;">Find partners →</button></p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            partnerRestaurants.forEach(p => {
+                const restaurant = restaurants.find(r => r.name === p.name) || { rating: 4.5, image: '' };
+                html += `
+                    <div style="background: #f8fbf8; padding: 0.8rem 1.2rem; border-radius: 60px; display: flex; align-items: center; gap: 10px; border: 1px solid #d0e0d0;">
+                        <div style="width: 32px; height: 32px; background: #1e4a1e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <span style="font-weight: 600;">${p.name}</span>
+                        <span style="color: #f0b34b;"><i class="fas fa-star"></i> ${restaurant.rating || 4.5}</span>
+                        <span style="background: #2ecc71; width: 8px; height: 8px; border-radius: 50%;"></span>
+                    </div>
+                `;
+            });
+            
+            partnerList.innerHTML = html;
+        }
+
+        // ========== CONNECT TO RESTAURANT ==========
+        window.connectToRestaurant = function(id, event) {
+            if (event) event.stopPropagation();
+            const restaurant = restaurants.find(r => r.id === id);
+            
+            // Check if already connected
+            const existing = partnerRestaurants.find(p => p.name === restaurant.name);
+            if (!existing) {
+                partnerRestaurants.push({ id: id, name: restaurant.name, connected: true });
+                showToast(`✅ Connected to ${restaurant.name}! They're now your partner.`);
+                
+                // Update dashboard partner list
+                updatePartnerList();
+                
+                // Add to donation source dropdown
+                const sourceSelect = document.getElementById('donationSource');
+                if (sourceSelect) {
+                    const option = document.createElement('option');
+                    option.value = restaurant.name;
+                    option.textContent = restaurant.name;
+                    sourceSelect.appendChild(option);
+                }
+            } else {
+                showToast(`🤝 Already connected to ${restaurant.name}`);
+            }
+        };
+
+        // ========== COLLECT DONATION FROM RESTAURANT ==========
+        window.collectDonation = function(restaurantId, item, kg, event) {
+            if (event) event.stopPropagation();
+            const restaurant = restaurants.find(r => r.id === restaurantId);
+            
+            // Add to collected food
+            collectedFood.push({
+                id: genId(),
+                name: item,
+                kg: kg,
+                source: restaurant.name,
+                date: new Date()
+            });
+            
+            // Refresh dashboard UI
+            refreshDashboardUI();
+            
+            // Show success message
+            showToast(`✅ Collected ${kg}kg of ${item} from ${restaurant.name}`);
+            
+            // Navigate to dashboard to see the collected food
+            setTimeout(() => navigateTo('dashboard'), 1500);
+        };
+
+        // ========== INITIALIZE DISCOVERY ==========
+        function initializeDiscovery() {
+            renderRestaurantGrid();
+            initializeMap();
+        }
+
+        // ========== RENDER RESTAURANT GRID ==========
+        function renderRestaurantGrid() {
+            const grid = document.getElementById('restaurantGrid');
+            if (!grid) return;
+
+            let filteredRestaurants = filterRestaurantsData();
+            
+            if (filteredRestaurants.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #a0c0a0; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #1e3a1e;">No restaurants found</h3>
+                        <p style="color: #5e7e5e;">Try adjusting your filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            filteredRestaurants.forEach(r => {
+                const isOpen = r.open ? 'open' : 'closed';
+                const openStatus = r.open ? 'Open now' : 'Closed';
+                const openIcon = r.open ? 'fa-door-open' : 'fa-door-closed';
+                const isPartner = partnerRestaurants.some(p => p.name === r.name);
+                
+                html += `
+                    <div class="restaurant-card" onclick="viewRestaurantProfile(${r.id})">
+                        <div class="restaurant-image" style="background-image: url('${r.image}')">
+                            ${r.live ? '<span class="live-indicator-small"><i class="fas fa-circle"></i> LIVE</span>' : ''}
+                            ${r.verified ? '<span class="restaurant-badge verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                            ${r.new ? '<span class="restaurant-badge new"><i class="fas fa-star"></i> New</span>' : ''}
+                            ${isPartner ? '<span class="restaurant-badge" style="background: #f0b34b; right: 16px; top: 60px;"><i class="fas fa-handshake"></i> Partner</span>' : ''}
+                        </div>
+                        <div class="restaurant-info">
+                            <div class="restaurant-header">
+                                <span class="restaurant-name">${r.name}</span>
+                                <span class="restaurant-rating"><i class="fas fa-star" style="color: #f0b34b;"></i> ${r.rating}</span>
+                            </div>
+                            <div class="restaurant-cuisine">
+                                ${r.cuisine.map(c => `<span class="cuisine-tag">${c}</span>`).join('')}
+                            </div>
+                            <div class="restaurant-location">
+                                <i class="fas fa-map-marker-alt"></i> ${r.location} • ${r.distance}
+                            </div>
+                            <div class="restaurant-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${r.stats.donated}kg</div>
+                                    <div class="stat-label">Donated</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${r.stats.meals}</div>
+                                    <div class="stat-label">Meals</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${r.stats.co2}kg</div>
+                                    <div class="stat-label">CO₂ Saved</div>
+                                </div>
+                            </div>
+                            <div class="restaurant-footer">
+                                <span class="open-status ${isOpen}">
+                                    <i class="fas ${openIcon}"></i> ${openStatus}
+                                </span>
+                                ${isPartner ? 
+                                    '<button class="collect-btn" onclick="collectFromPartner(' + r.id + ', event)"><i class="fas fa-hand-holding-heart"></i> Collect Food</button>' : 
+                                    '<button class="connect-btn" onclick="connectToRestaurant(' + r.id + ', event)"><i class="fas fa-handshake"></i> Connect</button>'
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // ========== COLLECT FROM PARTNER (Quick action) ==========
+        window.collectFromPartner = function(id, event) {
+            event.stopPropagation();
+            const restaurant = restaurants.find(r => r.id === id);
+            
+            if (restaurant.donations && restaurant.donations.length > 0) {
+                const donation = restaurant.donations[0];
+                collectDonation(id, donation.item, donation.kg, event);
+            } else {
+                // If no specific donations, add a generic one
+                collectDonation(id, "Assorted Food", 2.0, event);
+            }
+        };
+
+        // ========== FILTER RESTAURANTS ==========
+        function filterRestaurantsData() {
+            let filtered = [...restaurants];
+            
+            const searchTerm = document.getElementById('restaurantSearch')?.value.toLowerCase() || '';
+            if (searchTerm) {
+                filtered = filtered.filter(r => 
+                    r.name.toLowerCase().includes(searchTerm) ||
+                    r.cuisine.some(c => c.toLowerCase().includes(searchTerm)) ||
+                    r.location.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (currentCuisineFilter !== 'all') {
+                filtered = filtered.filter(r => 
+                    r.cuisine.some(c => c.toLowerCase().includes(currentCuisineFilter))
+                );
+            }
+            
+            if (currentRatingFilter > 0) {
+                filtered = filtered.filter(r => r.rating >= currentRatingFilter);
+            }
+            
+            if (currentOpenFilter) {
+                filtered = filtered.filter(r => r.open);
+            }
+            
+            return filtered;
+        }
+
+        window.filterRestaurants = function() {
+            renderRestaurantGrid();
+            updateMapMarkers();
+        };
+
+        window.filterByCuisine = function(cuisine) {
+            document.querySelectorAll('.filter-chip').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('filterAll').classList.add('active');
+            
+            currentCuisineFilter = cuisine;
+            renderRestaurantGrid();
+            updateMapMarkers();
+            showToast(`Showing ${cuisine === 'all' ? 'all' : cuisine} restaurants`);
+        };
+
+        window.filterByRating = function(rating) {
+            currentRatingFilter = currentRatingFilter === rating ? 0 : rating;
+            
+            document.querySelectorAll('.filter-chip').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('filterAll').classList.add('active');
+            
+            if (currentRatingFilter > 0) {
+                document.getElementById('filterRating').classList.add('active');
+            }
+            
+            renderRestaurantGrid();
+            updateMapMarkers();
+        };
+
+        window.filterByOpenNow = function() {
+            currentOpenFilter = !currentOpenFilter;
+            
+            document.querySelectorAll('.filter-chip').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('filterAll').classList.add('active');
+            
+            if (currentOpenFilter) {
+                document.getElementById('filterOpen').classList.add('active');
+            }
+            
+            renderRestaurantGrid();
+            updateMapMarkers();
+        };
+
+        window.toggleView = function(view) {
+            currentView = view;
+            
+            document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+            document.getElementById('mapViewBtn').classList.toggle('active', view === 'map');
+            
+            const mapContainer = document.getElementById('mapContainer');
+            const grid = document.getElementById('restaurantGrid');
+            
+            if (view === 'map') {
+                mapContainer.style.display = 'block';
+                grid.style.display = 'none';
+                setTimeout(() => {
+                    if (map) map.invalidateSize();
+                }, 100);
+            } else {
+                mapContainer.style.display = 'none';
+                grid.style.display = 'grid';
+            }
+        };
+
+        // ========== INITIALIZE MAP ==========
+        function initializeMap() {
+            if (!document.getElementById('mapContainer')) return;
+            
+            if (!map) {
+                map = L.map('mapContainer').setView([40.73, -73.99], 13);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+            }
+            
+            updateMapMarkers();
+        }
+
+        function updateMapMarkers() {
+            if (!map) return;
+            
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            
+            const filtered = filterRestaurantsData();
+            
+            filtered.forEach(r => {
+                const marker = L.marker([r.lat, r.lng]).addTo(map);
+                const isPartner = partnerRestaurants.some(p => p.name === r.name);
+                
+                marker.bindPopup(`
+                    <b>${r.name}</b> ${isPartner ? '✅ Partner' : ''}<br>
+                    ⭐ ${r.rating} (${r.reviews} reviews)<br>
+                    ${r.cuisine.join(' • ')}<br>
+                    ${r.open ? '🟢 Open now' : '🔴 Closed'}<br>
+                    <button onclick="viewRestaurantProfile(${r.id})" style="
+                        background: #1e4a1e;
+                        color: white;
+                        border: none;
+                        padding: 5px 10px;
+                        border-radius: 20px;
+                        margin-top: 5px;
+                        cursor: pointer;
+                    ">View Details</button>
+                `);
+                
+                markers.push(marker);
+            });
+        }
+
+        // ========== VIEW RESTAURANT PROFILE ==========
+        window.viewRestaurantProfile = function(id) {
+            const restaurant = restaurants.find(r => r.id === id);
+            if (!restaurant) return;
+            
+            selectedRestaurant = restaurant;
+            const isPartner = partnerRestaurants.some(p => p.name === restaurant.name);
+            
+            const profileHtml = `
+                <div class="restaurant-profile">
+                    <div class="profile-cover" style="background-image: url('${restaurant.image}')">
+                        <div class="profile-cover-overlay">
+                            <h1>${restaurant.name} ${isPartner ? '<span style="background: #f0b34b; padding: 5px 15px; border-radius: 40px; font-size: 0.9rem; margin-left: 1rem;"><i class="fas fa-handshake"></i> Partner</span>' : ''}</h1>
+                            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                                <span><i class="fas fa-star" style="color: #f0b34b;"></i> ${restaurant.rating} (${restaurant.reviews} reviews)</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${restaurant.distance}</span>
+                                <span class="${restaurant.open ? 'open' : 'closed'}" style="color: ${restaurant.open ? '#2ecc71' : '#e74c3c'};">
+                                    <i class="fas ${restaurant.open ? 'fa-door-open' : 'fa-door-closed'}"></i> 
+                                    ${restaurant.open ? 'Open Now' : 'Closed'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div>
+                            <div class="profile-section">
+                                <h2><i class="fas fa-info-circle"></i> About</h2>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <i class="fas fa-utensils"></i>
+                                        <div>
+                                            <strong>Cuisine</strong><br>
+                                            ${restaurant.cuisine.join(' • ')}
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <div>
+                                            <strong>Hours</strong><br>
+                                            ${restaurant.hours}
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-map-pin"></i>
+                                        <div>
+                                            <strong>Location</strong><br>
+                                            ${restaurant.location}
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="fas fa-hand-holding-heart"></i>
+                                        <div>
+                                            <strong>Partner Since</strong><br>
+                                            ${restaurant.new ? '2024' : '2023'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-section">
+                                <h2><i class="fas fa-box-open"></i> Available for Collection</h2>
+                                ${restaurant.donations.map(d => `
+                                    <div class="donation-item">
+                                        <div>
+                                            <h4>${d.item}</h4>
+                                            <p><i class="fas fa-weight"></i> ${d.kg}kg • ${d.portions} portions</p>
+                                            <p><i class="far fa-clock"></i> Pickup by: ${d.pickup}</p>
+                                        </div>
+                                        ${isPartner ? 
+                                            `<button class="collect-donation-btn" onclick="collectDonation(${restaurant.id}, '${d.item}', ${d.kg}, event)">
+                                                <i class="fas fa-hand-holding-heart"></i> Collect
+                                            </button>` : 
+                                            `<button class="request-btn" onclick="connectToRestaurant(${restaurant.id}, event)">
+                                                <i class="fas fa-handshake"></i> Connect First
+                                            </button>`
+                                        }
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="profile-section">
+                                <h2><i class="fas fa-star"></i> Reviews</h2>
+                                ${restaurant.reviews.map(r => `
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <span class="reviewer-name">${r.user}</span>
+                                            <span class="review-rating">${'⭐'.repeat(r.rating)}</span>
+                                        </div>
+                                        <p style="color: #5e7e5e;">${r.comment}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="profile-section">
+                                <h2><i class="fas fa-chart-bar"></i> Impact Stats</h2>
+                                <div style="background: #f8fbf8; padding: 1.5rem; border-radius: 20px;">
+                                    <div style="margin-bottom: 1rem;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                            <span>Total Donated</span>
+                                            <span style="font-weight: 700;">${restaurant.stats.donated} kg</span>
+                                        </div>
+                                        <div class="meter-track">
+                                            <div class="meter-fill-pro" style="width: 75%;"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 1.5rem; font-weight: 700; color: #1e4a1e;">${restaurant.stats.meals}</div>
+                                            <div style="font-size: 0.8rem; color: #5e7e5e;">Meals Served</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 1.5rem; font-weight: 700; color: #1e4a1e;">${restaurant.stats.co2}kg</div>
+                                            <div style="font-size: 0.8rem; color: #5e7e5e;">CO₂ Saved</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-section">
+                                <h2><i class="fas fa-handshake"></i> Actions</h2>
+                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                    ${isPartner ? 
+                                        `<button class="btn-pro" onclick="collectFromPartner(${restaurant.id}, event)" style="width: 100%;">
+                                            <i class="fas fa-hand-holding-heart"></i> Collect Food Now
+                                        </button>` :
+                                        `<button class="btn-pro" onclick="connectToRestaurant(${restaurant.id}, event)" style="width: 100%;">
+                                            <i class="fas fa-handshake"></i> Connect as Partner
+                                        </button>`
+                                    }
+                                    <button class="btn-pro btn-outline-pro" onclick="goBack()" style="width: 100%;">
+                                        <i class="fas fa-arrow-left"></i> Back to List
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('restaurantGrid').style.display = 'none';
+            document.getElementById('mapContainer').style.display = 'none';
+            const profileDiv = document.getElementById('restaurantProfile');
+            profileDiv.innerHTML = profileHtml;
+            profileDiv.style.display = 'block';
+            
+            document.getElementById('backButton').style.display = 'flex';
+        };
+
+        // ========== REFRESH DASHBOARD UI ==========
+        function refreshDashboardUI() {
+            let stats = computeStats();
+
+            document.getElementById('proDonated').innerText = stats.donated.toFixed(1);
+            document.getElementById('proWaste').innerText = stats.wasted.toFixed(1);
+            document.getElementById('proDiverted').innerText = stats.diverted.toFixed(0);
+            document.getElementById('proCo2').innerText = stats.co2.toFixed(1);
+            document.getElementById('proCo2Badge').innerText = stats.co2.toFixed(1);
+            document.getElementById('proStatCo2').innerText = stats.co2.toFixed(1) + ' kg';
+            document.getElementById('partnerCount').innerText = partnerRestaurants.length;
+
+            let fillPercent = Math.min(100, stats.diverted);
+            document.getElementById('proMeterFill').style.width = fillPercent + '%';
+            document.getElementById('proMeterLabel').innerText = fillPercent.toFixed(0) + '%';
+
+            document.getElementById('proThresholdValue').innerText = thresholdKg + ' kg';
+            document.getElementById('proStatThreshold').innerText = thresholdKg + ' kg';
+            document.getElementById('proStatWaste').innerText = stats.wasted.toFixed(1) + ' kg';
+            document.getElementById('proAlertThresholdDisplay').innerText = thresholdKg + ' kg limit';
+
+            let newAlert = (stats.wasted >= thresholdKg) && buzzerEnabled;
+            let wasteCard = document.getElementById('proWasteCard');
+            let alertBadge = document.getElementById('proAlertBadge');
+            let alertBar = document.getElementById('proAlertBar');
+            let alertIcon = document.getElementById('proAlertIcon');
+            let alertMessage = document.getElementById('proAlertMessage');
+            let buzzerVisual = document.getElementById('proBuzzerVisual');
+            let buzzerState = document.getElementById('proBuzzerState');
+
+            if (newAlert) {
+                wasteCard.classList.add('warning-mode');
+                alertBadge.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ALERT · LIMIT EXCEEDED';
+                alertBadge.style.background = '#fed7d7';
+                alertBadge.style.color = '#c0392b';
+                alertBar.classList.add('warning-level');
+                alertIcon.style.color = '#c0392b';
+                alertIcon.className = 'fas fa-exclamation-triangle';
+                alertMessage.innerText = '⚠️ CRITICAL: Waste exceeds threshold! Buzzer active.';
+                buzzerVisual.innerHTML = '<i class="fas fa-bell"></i> ALERT';
+                buzzerVisual.style.background = '#c0392b';
+                buzzerVisual.style.color = 'white';
+                buzzerState.innerText = 'ALERT';
+                buzzerState.style.color = '#c0392b';
+                buzzerState.style.fontWeight = '800';
+
+                if (!alertActive) playProBuzzer();
+                else playProBuzzer();
+                alertActive = true;
+            } else {
+                wasteCard.classList.remove('warning-mode');
+                alertBadge.innerHTML = '<i class="fas fa-shield-alt"></i> NORMAL';
+                alertBadge.style.background = '#edf2f7';
+                alertBadge.style.color = '#1e2e1e';
+                alertBar.classList.remove('warning-level');
+                alertIcon.style.color = '#f0b34b';
+                alertIcon.className = 'fas fa-bell';
+                alertMessage.innerText = 'Waste below threshold. All systems normal.';
+                buzzerVisual.innerHTML = '<i class="fas fa-check"></i> OK';
+                buzzerVisual.style.background = '#c8e0c8';
+                buzzerVisual.style.color = '#1e4a1e';
+                buzzerState.innerText = 'ARMED';
+                buzzerState.style.color = '#1e3a1e';
+                buzzerState.style.fontWeight = '600';
+                alertActive = false;
+            }
+
+            renderCollectedFoodTable();
+            renderWasteTable();
+        }
+
+        function computeStats() {
+            let donated = collectedFood.reduce((acc, d) => acc + d.kg, 0);
+            let wasted = wasteLogs.reduce((acc, w) => acc + w.kg, 0);
+            let total = donated + wasted;
+            let diverted = total === 0 ? 0 : (donated / total) * 100;
+            let co2 = donated * 2.5;
+            return { donated, wasted, diverted, co2 };
+        }
+
+        function renderCollectedFoodTable() {
+            let container = document.getElementById('proDonationTable');
+            if (!container) return;
+
+            if (collectedFood.length === 0) {
+                container.innerHTML = `<div class="empty-state-pro"><i class="fas fa-box-open" style="font-size: 1.8rem; margin-bottom: 12px; display: block; color: #a0c0a0;"></i> <span style="font-weight: 600;">No food collected yet</span><br><span style="font-size: 0.8rem;">Go to Discovery and collect from partner restaurants</span></div>`;
+                return;
+            }
+
+            let html = '';
+            [...collectedFood].sort((a, b) => b.id.localeCompare(a.id)).forEach(d => {
+                html += `<div class="table-row-pro">
+                    <div>
+                        <div class="row-primary"><i class="fas fa-carrot" style="color: #1e4a1e;"></i> ${escapeHTML(d.name)}</div>
+                        <div class="row-secondary">
+                            <span class="source-badge"><i class="fas fa-utensils"></i> ${d.source}</span>
+                            <span><i class="far fa-clock"></i> just now</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span class="weight-badge">${d.kg.toFixed(1)} kg</span>
+                        <button class="delete-pro" onclick="deleteCollectedItem('${d.id}')"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderWasteTable() {
+            let container = document.getElementById('proWasteTable');
+            if (!container) return;
+
+            if (wasteLogs.length === 0) {
+                container.innerHTML = `<div class="empty-state-pro"><i class="fas fa-receipt" style="font-size: 1.8rem; margin-bottom: 12px; display: block; color: #c0a0a0;"></i> <span style="font-weight: 600;">No waste entries</span><br><span style="font-size: 0.8rem;">Log waste to track your impact</span></div>`;
+                return;
+            }
+
+            let html = '';
+            [...wasteLogs].sort((a, b) => b.id.localeCompare(a.id)).forEach(w => {
+                html += `<div class="table-row-pro">
+                    <div>
+                        <div class="row-primary"><i class="fas fa-trash" style="color: #8b4e4e;"></i> ${escapeHTML(w.name)}</div>
+                        <div class="row-secondary"><i class="far fa-clock"></i> just now</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span class="weight-badge" style="background: #fde7e7; color: #8b4e4e;">${w.kg.toFixed(1)} kg</span>
+                        <button class="delete-pro" onclick="deleteWasteItem('${w.id}')"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        window.deleteCollectedItem = function(id) {
+            collectedFood = collectedFood.filter(d => d.id !== id);
+            refreshDashboardUI();
+            showToast('🗑️ Item removed');
+        };
+
+        window.deleteWasteItem = function(id) {
+            wasteLogs = wasteLogs.filter(w => w.id !== id);
+            refreshDashboardUI();
+            showToast('🗑️ Item deleted');
+        };
+
+        function genId() {
+            return Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+        }
+
+        window.escapeHTML = function(str) {
+            return String(str).replace(/[&<>"]/g, function(c) {
+                if (c === '&') return '&amp;';
+                if (c === '<') return '&lt;';
+                if (c === '>') return '&gt;';
+                if (c === '"') return '&quot;';
+                return c;
+            });
+        };
+
+        // ========== VOICE INPUT ==========
+        window.startVoiceInput = function(inputId, isWeight = false) {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showToast('❌ Voice input not supported', 'error');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            const button = event.currentTarget;
+            const input = document.getElementById(inputId);
+
+            button.classList.add('listening');
+            button.innerHTML = '<i class="fas fa-circle"></i>';
+            
+            showToast('🎤 Listening...', 'info');
+
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                let speechResult = event.results[0][0].transcript;
+                
+                if (isWeight) {
+                    const numberMap = {
+                        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+                        'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+                        'point': '.', 'dot': '.'
+                    };
+                    
+                    let processed = speechResult.toLowerCase();
+                    Object.keys(numberMap).forEach(word => {
+                        processed = processed.replace(new RegExp('\\b' + word + '\\b', 'g'), numberMap[word]);
+                    });
+                    
+                    const numbers = processed.match(/\d+\.?\d*/g);
+                    if (numbers && numbers.length > 0) {
+                        input.value = parseFloat(numbers[0]).toFixed(1);
+                    } else {
+                        showToast('❌ Could not recognize weight', 'error');
+                    }
+                } else {
+                    input.value = speechResult.charAt(0).toUpperCase() + speechResult.slice(1);
+                }
+                
+                showToast(`✅ Recognized: "${speechResult}"`);
+                
+                button.classList.remove('listening');
+                button.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+
+            recognition.onerror = function(event) {
+                button.classList.remove('listening');
+                button.innerHTML = '<i class="fas fa-microphone"></i>';
+                showToast('❌ Voice input error', 'error');
+            };
+
+            recognition.onend = function() {
+                button.classList.remove('listening');
+                button.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+        };
+
+        // ========== ADD COLLECTED FOOD ==========
+        function addCollectedFood() {
+            let nameInput = document.getElementById('proDonationName');
+            let kgInput = document.getElementById('proDonationKg');
+            let sourceSelect = document.getElementById('donationSource');
+
+            let name = nameInput.value.trim();
+            let kg = parseFloat(kgInput.value);
+            let source = sourceSelect.value;
+
+            if (!name) {
+                showToast('❌ Please enter food name', 'error');
+                return;
+            }
+
+            if (isNaN(kg) || kg <= 0) {
+                showToast('❌ Please enter valid weight', 'error');
+                return;
+            }
+
+            collectedFood.push({
+                id: genId(),
+                name: name,
+                kg: kg,
+                source: source,
+                date: new Date()
+            });
+
+            nameInput.value = '';
+            kgInput.value = '2.5';
+
+            refreshDashboardUI();
+            showToast(`✅ Added: ${kg}kg ${name} from ${source}`);
+        }
+
+        // ========== ADD WASTE ==========
+        function addWaste() {
+            let nameInput = document.getElementById('proWasteName');
+            let kgInput = document.getElementById('proWasteKg');
+
+            let name = nameInput.value.trim();
+            let kg = parseFloat(kgInput.value);
+
+            if (!name) {
+                showToast('❌ Please enter waste item', 'error');
+                return;
+            }
+
+            if (isNaN(kg) || kg <= 0) {
+                showToast('❌ Please enter valid weight', 'error');
+                return;
+            }
+
+            wasteLogs.push({
+                id: genId(),
+                name: name,
+                kg: kg,
+                date: new Date()
+            });
+
+            nameInput.value = '';
+            kgInput.value = '0.8';
+
+            refreshDashboardUI();
+            showToast('✅ Waste logged successfully!');
+        }
+
+        // ========== SILENCE BUZZER ==========
+        function silenceBuzzer() {
+            buzzerEnabled = false;
+            document.getElementById('proBuzzerToggle').checked = false;
+            alertActive = false;
+            refreshDashboardUI();
+            showToast('🔇 Buzzer silenced');
+        }
+
+        // ========== BUZZER ==========
+        function playProBuzzer() {
+            if (!buzzerEnabled || !alertActive) return;
+            let now = Date.now();
+            if (now - lastBuzz < 4000) return;
+
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => {
+                        beepSound();
+                    });
+                } else {
+                    beepSound();
+                }
+                lastBuzz = now;
+            } catch (e) {
+                console.log('Buzzer unavailable:', e);
+            }
+        }
+
+        function beepSound() {
+            if (!buzzerEnabled || !alertActive) return;
+
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.value = 620;
+                gain.gain.value = 0.2;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+
+                setTimeout(() => {
+                    if (buzzerEnabled && alertActive) {
+                        let osc2 = audioCtx.createOscillator();
+                        osc2.frequency.value = 430;
+                        osc2.type = 'sawtooth';
+                        let g2 = audioCtx.createGain();
+                        g2.gain.value = 0.15;
+                        osc2.connect(g2);
+                        g2.connect(audioCtx.destination);
+                        osc2.start();
+                        osc2.stop(audioCtx.currentTime + 0.2);
+                    }
+                }, 150);
+            } catch (e) { }
+        }
+
+        // ========== QUICK ADD ==========
+        window.quickAddDonation = function(name, kg, source) {
+            collectedFood.push({
+                id: genId(),
+                name: name,
+                kg: kg,
+                source: source || 'Green Leaf Bistro',
+                date: new Date()
+            });
+            refreshDashboardUI();
+            showToast(`✅ Added: ${name} (${kg}kg) from ${source || 'restaurant'}`);
+        };
+
+        window.quickAddWaste = function(name, kg) {
+            wasteLogs.push({
+                id: genId(),
+                name: name,
+                kg: kg,
+                date: new Date()
+            });
+            refreshDashboardUI();
+            showToast(`✅ Logged: ${name} (${kg}kg)`);
+        };
+
+        window.showQuickDonations = function() {
+            document.getElementById('quickDonationPanel').style.display = 'block';
+        };
+
+        window.closeQuickDonations = function() {
+            document.getElementById('quickDonationPanel').style.display = 'none';
+        };
+
+        window.showQuickWaste = function() {
+            document.getElementById('quickWastePanel').style.display = 'block';
+        };
+
+        window.closeQuickWaste = function() {
+            document.getElementById('quickWastePanel').style.display = 'none';
+        };
+
+        // ========== TOAST ==========
+        window.showToast = function(message, type = 'success') {
+            let existingToast = document.querySelector('.toast-message');
+            if (existingToast) existingToast.remove();
+
+            let toast = document.createElement('div');
+            toast.className = 'toast-message';
+            toast.innerText = message;
+            
+            if (type === 'error') {
+                toast.style.background = '#c0392b';
+            } else if (type === 'info') {
+                toast.style.background = '#3498db';
+            }
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideDown 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
+        // ========== INITIALIZE ==========
+        function init() {
+            checkLoginStatus();
+            
+            let now = new Date();
+            let dateStr = now.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('currentDateTime').innerText = dateStr;
+
+            document.getElementById('proAddDonationBtn')?.addEventListener('click', addCollectedFood);
+            document.getElementById('proAddWasteBtn')?.addEventListener('click', addWaste);
+            document.getElementById('proSilenceBtn')?.addEventListener('click', silenceBuzzer);
+
+            document.getElementById('proThresholdSlider')?.addEventListener('input', function() {
+                thresholdKg = parseInt(this.value, 10);
+                refreshDashboardUI();
+            });
+
+            document.getElementById('proBuzzerToggle')?.addEventListener('change', function() {
+                buzzerEnabled = this.checked;
+                if (!buzzerEnabled) alertActive = false;
+                refreshDashboardUI();
+                showToast(buzzerEnabled ? '🔊 Buzzer enabled' : '🔇 Buzzer disabled');
+            });
+
+            document.getElementById('proDonationName')?.addEventListener('keypress', e => e.key === 'Enter' && addCollectedFood());
+            document.getElementById('proDonationKg')?.addEventListener('keypress', e => e.key === 'Enter' && addCollectedFood());
+            document.getElementById('proWasteName')?.addEventListener('keypress', e => e.key === 'Enter' && addWaste());
+            document.getElementById('proWasteKg')?.addEventListener('keypress', e => e.key === 'Enter' && addWaste());
+            document.getElementById('loginUsername')?.addEventListener('keypress', e => e.key === 'Enter' && handleUniversalLogin());
+            document.getElementById('loginPassword')?.addEventListener('keypress', e => e.key === 'Enter' && handleUniversalLogin());
+
+            refreshDashboardUI();
+        }
+
+        window.onload = init;
+    })();
+    </script>
+</body>
+</html>
