@@ -204,7 +204,7 @@
         animation: fadeIn 0.5s ease;
     }
 
-    /* ===== NAVIGATION BAR (unchanged) ===== */
+    /* ===== NAVIGATION BAR (User dropdown added) ===== */
     .main-nav {
         background: white;
         border-radius: 0 0 24px 24px;
@@ -281,6 +281,7 @@
         display: flex;
         align-items: center;
         gap: 16px;
+        position: relative;
     }
 
     .user-menu {
@@ -292,6 +293,13 @@
         border-radius: 40px;
         border: 1px solid #d0e0d0;
         cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .user-menu:hover {
+        background: #e8f0e8;
+        border-color: #1e4a1e;
     }
 
     .user-avatar {
@@ -311,6 +319,58 @@
         color: #1e3a1e;
     }
 
+    /* New User Dropdown Menu */
+    .user-dropdown {
+        position: absolute;
+        top: 58px;
+        right: 0;
+        width: 220px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 35px -8px rgba(0,30,0,0.25), 0 0 0 1px #d0e0d0;
+        padding: 0.5rem;
+        display: none;
+        z-index: 1100;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .user-dropdown.show {
+        display: block;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.8rem 1.2rem;
+        border-radius: 16px;
+        cursor: pointer;
+        font-weight: 500;
+        color: #1e3a1e;
+        transition: all 0.15s;
+    }
+
+    .dropdown-item i {
+        width: 24px;
+        color: #1e4a1e;
+        font-size: 1.1rem;
+    }
+
+    .dropdown-item:hover {
+        background: #f0f7f0;
+    }
+
+    .dropdown-item.logout-item {
+        color: #c0392b;
+        border-top: 1px solid #ecf1f4;
+        margin-top: 0.3rem;
+        padding-top: 1rem;
+    }
+
+    .dropdown-item.logout-item i {
+        color: #c0392b;
+    }
+
     .logout-btn {
         background: none;
         border: 1px solid #d0e0d0;
@@ -323,11 +383,8 @@
         display: flex;
         align-items: center;
         gap: 8px;
-    }
-
-    .logout-btn:hover {
-        background: #fff0f0;
-        border-color: #c0392b;
+        /* hide old logout button, now inside dropdown */
+        display: none;
     }
 
     .back-button {
@@ -367,6 +424,144 @@
     @keyframes slideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== PROFILE, SETTINGS, HELP CENTER STYLES ===== */
+    .profile-container, .settings-container, .help-container {
+        background: white;
+        border-radius: 32px;
+        padding: 2rem;
+        box-shadow: 0 8px 24px -8px rgba(0,32,0,0.08);
+        border: 1px solid #ecf1f4;
+        margin-bottom: 2rem;
+    }
+
+    .profile-header, .settings-header, .help-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f5fa;
+    }
+
+    .profile-header i, .settings-header i, .help-header i {
+        font-size: 2rem;
+        color: #1e4a1e;
+        background: #f0f7f0;
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    .profile-header h2, .settings-header h2, .help-header h2 {
+        font-size: 2rem;
+        color: #1e3a1e;
+    }
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+    }
+
+    .profile-avatar-section {
+        text-align: center;
+        background: #f8fbf8;
+        padding: 2rem;
+        border-radius: 24px;
+    }
+
+    .profile-avatar-large {
+        width: 120px;
+        height: 120px;
+        background: #1e4a1e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0 auto 1rem;
+    }
+
+    .profile-info-section {
+        background: #f8fbf8;
+        padding: 2rem;
+        border-radius: 24px;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e0e8e0;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        width: 120px;
+        font-weight: 600;
+        color: #1e3a1e;
+    }
+
+    .info-value {
+        flex: 1;
+        color: #5e7e5e;
+    }
+
+    .settings-section, .help-section {
+        background: #f8fbf8;
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .settings-section h3, .help-section h3 {
+        color: #1e3a1e;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 0.8rem;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .faq-question {
+        font-weight: 600;
+        color: #1e3a1e;
+        margin-bottom: 0.5rem;
+    }
+
+    .faq-answer {
+        color: #5e7e5e;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .contact-support {
+        background: #e8f4e8;
+        border-radius: 20px;
+        padding: 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
     }
 
     /* ===== ALL OTHER STYLES (IDENTICAL) ===== */
@@ -576,7 +771,7 @@
 
     <!-- MAIN APP CONTAINER (identical functionality) -->
     <div id="mainAppContainer">
-        <!-- NAVIGATION BAR (unchanged) -->
+        <!-- NAVIGATION BAR (with new user dropdown) -->
         <div class="main-nav">
             <div class="nav-left">
                 <div class="nav-logo" onclick="navigateTo('discovery')">
@@ -595,11 +790,28 @@
                 <div class="back-button" id="backButton" onclick="goBack()" style="display: none;">
                     <i class="fas fa-arrow-left"></i> Back
                 </div>
-                <div class="user-menu" id="userMenu">
+                <div class="user-menu" id="userMenu" onclick="toggleUserDropdown(event)">
                     <div class="user-avatar" id="userAvatar">JD</div>
                     <span class="user-name" id="userName">John Doe</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: #4a6f4a;"></i>
                 </div>
-                <button class="logout-btn" onclick="handleLogout()">
+                <!-- New User Dropdown -->
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-item" onclick="showProfile()">
+                        <i class="fas fa-user-circle"></i> Profile Details
+                    </div>
+                    <div class="dropdown-item" onclick="showSettings()">
+                        <i class="fas fa-cog"></i> Settings
+                    </div>
+                    <div class="dropdown-item" onclick="showHelp()">
+                        <i class="fas fa-question-circle"></i> Help Center
+                    </div>
+                    <div class="dropdown-item logout-item" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </div>
+                </div>
+                <!-- old logout button hidden -->
+                <button class="logout-btn" style="display: none;" onclick="handleLogout()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
@@ -639,7 +851,6 @@
 
         <!-- DASHBOARD PAGE (unchanged) -->
         <div id="dashboard-page" class="page">
-            <!-- ... all dashboard content exactly as before ... -->
             <div class="executive-header">
                 <div class="brand-group">
                     <div class="corp-logo"><i class="fas fa-leaf"></i> FoodSave<span style="font-weight: 300; margin-left: 4px;">| My Impact</span></div>
@@ -681,6 +892,195 @@
                 <div class="alert-bar-pro" id="proAlertBar"><div style="display: flex; align-items: center; gap: 16px;"><i class="fas fa-bell" style="color: #f0b34b;" id="proAlertIcon"></i><span id="proAlertMessage">Waste below threshold. All systems normal.</span></div><div style="display: flex; align-items: center; gap: 20px;"><span style="font-weight: 600;" id="proAlertThresholdDisplay">25 kg limit</span><span id="proBuzzerVisual" style="background: #c8e0c8; padding: 4px 12px; border-radius: 60px; font-size: 0.75rem; font-weight: 700;"><i class="fas fa-check"></i> OK</span></div></div>
             </div>
         </div>
+
+        <!-- PROFILE DETAILS PAGE (New) -->
+        <div id="profile-page" class="page">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Profile Details</h2>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large" id="profileAvatar">JD</div>
+                        <h3 id="profileName">John Doe</h3>
+                        <p style="color: #5e7e5e;">Food Rescue Volunteer</p>
+                        <p style="margin-top: 1rem;"><i class="fas fa-map-marker-alt"></i> New York, NY</p>
+                    </div>
+                    <div class="profile-info-section">
+                        <div class="info-row">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-value" id="profileFullName">John Doe</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <span class="info-value" id="profileEmail">john.doe@example.com</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Username</span>
+                            <span class="info-value" id="profileUsername">john.doe</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Member Since</span>
+                            <span class="info-value" id="profileMemberSince">January 2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Total Collected</span>
+                            <span class="info-value" id="profileTotalCollected">7.5 kg</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Partner Restaurants</span>
+                            <span class="info-value" id="profilePartners">2</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">CO₂ Saved</span>
+                            <span class="info-value" id="profileCo2">18.75 kg</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button class="btn-pro" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS PAGE (New) -->
+        <div id="settings-page" class="page">
+            <div class="settings-container">
+                <div class="settings-header">
+                    <i class="fas fa-cog"></i>
+                    <h2>Settings</h2>
+                </div>
+                
+                <div class="settings-section">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                    <div class="setting-item">
+                        <span>Email Notifications</span>
+                        <label class="switch-pro" style="margin: 0;">
+                            <input type="checkbox" id="emailNotifications" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Push Notifications</span>
+                        <label class="switch-pro" style="margin: 0;">
+                            <input type="checkbox" id="pushNotifications" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Buzzer Alerts</span>
+                        <label class="switch-pro" style="margin: 0;">
+                            <input type="checkbox" id="buzzerAlerts" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3><i class="fas fa-sliders-h"></i> Preferences</h3>
+                    <div class="setting-item">
+                        <span>Default Waste Threshold</span>
+                        <select class="pro-input" style="width: auto; padding: 0.5rem 2rem;">
+                            <option>25 kg</option>
+                            <option>50 kg</option>
+                            <option>75 kg</option>
+                            <option>100 kg</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <span>Language</span>
+                        <select class="pro-input" style="width: auto; padding: 0.5rem 2rem;">
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                            <option>Hindi</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <span>Theme</span>
+                        <select class="pro-input" style="width: auto; padding: 0.5rem 2rem;">
+                            <option>Light</option>
+                            <option>Dark</option>
+                            <option>System</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3><i class="fas fa-shield-alt"></i> Privacy</h3>
+                    <div class="setting-item">
+                        <span>Show my profile to partners</span>
+                        <label class="switch-pro" style="margin: 0;">
+                            <input type="checkbox" id="profileVisibility" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Share impact statistics</span>
+                        <label class="switch-pro" style="margin: 0;">
+                            <input type="checkbox" id="shareStats" checked>
+                            <span class="slider-pro"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button class="btn-pro" onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+                    <button class="btn-pro btn-outline-pro" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- HELP CENTER PAGE (New) -->
+        <div id="help-page" class="page">
+            <div class="help-container">
+                <div class="help-header">
+                    <i class="fas fa-question-circle"></i>
+                    <h2>Help Center</h2>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-star"></i> Getting Started</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">How do I find partner restaurants?</div>
+                        <div class="faq-answer">Go to the Discover page and browse through our list of partner restaurants. You can filter by cuisine, rating, or open status. Click on any restaurant to view details and available food donations.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">How do I collect food from a restaurant?</div>
+                        <div class="faq-answer">First, connect with the restaurant by clicking "Connect" on their card. Once connected, you can collect available donations by clicking "Collect Food" on the restaurant profile.</div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-chart-line"></i> Tracking Impact</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">How is my impact calculated?</div>
+                        <div class="faq-answer">Your food collected (kg) is automatically tracked. CO₂ savings are calculated as 2.5kg CO₂ per kg of food collected. Diversion rate shows the percentage of food collected versus waste generated.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What are waste alerts?</div>
+                        <div class="faq-answer">You can set a waste threshold. When your waste exceeds this limit, an audible buzzer alert will sound to help you stay mindful of waste generation.</div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-microphone"></i> Voice Features</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">How do I use voice input?</div>
+                        <div class="faq-answer">Click the microphone button next to any input field. Speak clearly, and your speech will be converted to text. Works for food names and waste items.</div>
+                    </div>
+                </div>
+
+                <div class="contact-support">
+                    <i class="fas fa-headset" style="font-size: 2rem; color: #1e4a1e; margin-bottom: 1rem;"></i>
+                    <h3 style="color: #1e3a1e;">Need more help?</h3>
+                    <p style="color: #5e7e5e; margin: 0.5rem 0 1rem;">Our support team is available 24/7</p>
+                    <button class="btn-pro" onclick="showToast('📧 support@foodsave.com')"><i class="fas fa-envelope"></i> Contact Support</button>
+                    <button class="btn-pro btn-outline-pro" style="margin-left: 1rem;" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Leaflet JS for Maps -->
@@ -689,6 +1089,7 @@
     <script>
     // =============================================
     // FOODSAVE ENTERPRISE - FULL SCRIPT (unchanged)
+    // with added user dropdown functions and new pages
     // =============================================
     (function() {
         "use strict";
@@ -727,6 +1128,57 @@
         let audioCtx = null;
         let lastBuzz = 0;
 
+        // Dropdown toggle
+        window.toggleUserDropdown = function(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            const userMenu = document.getElementById('userMenu');
+            if (!userMenu.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // New dropdown functions with actual pages
+        window.showProfile = function() {
+            document.getElementById('userDropdown').classList.remove('show');
+            updateProfilePage();
+            navigateTo('profile');
+        };
+
+        window.showSettings = function() {
+            document.getElementById('userDropdown').classList.remove('show');
+            navigateTo('settings');
+        };
+
+        window.showHelp = function() {
+            document.getElementById('userDropdown').classList.remove('show');
+            navigateTo('help');
+        };
+
+        window.saveSettings = function() {
+            showToast('✅ Settings saved successfully!', 'success');
+        };
+
+        function updateProfilePage() {
+            if (!currentUser) return;
+            
+            const stats = computeStats();
+            document.getElementById('profileAvatar').textContent = document.getElementById('userAvatar').textContent;
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileFullName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            document.getElementById('profileTotalCollected').textContent = stats.donated.toFixed(1) + ' kg';
+            document.getElementById('profilePartners').textContent = partnerRestaurants.length;
+            document.getElementById('profileCo2').textContent = stats.co2.toFixed(1) + ' kg';
+        }
+
         function checkLoginStatus() {
             const savedUser = sessionStorage.getItem('foodsave_user');
             if (savedUser) {
@@ -748,7 +1200,7 @@
         }
 
         function showLoginPage() {
-            document.getElementById('loginPage').style.display = 'flex'; // wrapper uses flex
+            document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('mainAppContainer').style.display = 'none';
         }
 
@@ -760,28 +1212,89 @@
         window.handleUniversalLogin = function() {
             const username = document.getElementById('loginUsername').value.trim();
             if (username === '') { showToast('❌ Please enter username or email', 'error'); return; }
-            const user = { username: username, email: username.includes('@') ? username : username + '@example.com', name: username.split('@')[0].split('.').map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' '), loginTime: new Date().toISOString(), isLoggedIn: true };
+            const user = { 
+                username: username, 
+                email: username.includes('@') ? username : username + '@example.com', 
+                name: username.split('@')[0].split('.').map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' '), 
+                loginTime: new Date().toISOString(), 
+                isLoggedIn: true 
+            };
             sessionStorage.setItem('foodsave_user', JSON.stringify(user));
-            currentUser = user; isLoggedIn = true;
-            showMainApp(); updateUserInfo(); initializeDiscovery(); updatePartnerList(); refreshDashboardUI(); navigateTo('discovery');
+            currentUser = user; 
+            isLoggedIn = true;
+            showMainApp(); 
+            updateUserInfo(); 
+            initializeDiscovery(); 
+            updatePartnerList(); 
+            refreshDashboardUI(); 
+            navigateTo('discovery');
             showToast(`✅ Welcome, ${user.name}! Find restaurants to partner with.`);
         };
 
         window.handleLogout = function() {
             sessionStorage.removeItem('foodsave_user');
-            isLoggedIn = false; currentUser = null;
+            isLoggedIn = false; 
+            currentUser = null;
             showLoginPage();
-            document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = '';
+            document.getElementById('loginUsername').value = ''; 
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('userDropdown').classList.remove('show');
             showToast('👋 Logged out successfully');
         };
 
-        function updateUserInfo() { /* same as before */ if (currentUser) { const userName = document.getElementById('userName'); const userAvatar = document.getElementById('userAvatar'); const nameParts = currentUser.name.split(' '); let initials = ''; if (nameParts.length >= 2) { initials = nameParts[0].charAt(0) + nameParts[1].charAt(0); } else { initials = currentUser.name.substring(0, 2).toUpperCase(); } userAvatar.textContent = initials.toUpperCase(); userName.textContent = currentUser.name; } }
+        function updateUserInfo() {
+            if (currentUser) {
+                const userName = document.getElementById('userName');
+                const userAvatar = document.getElementById('userAvatar');
+                const nameParts = currentUser.name.split(' ');
+                let initials = '';
+                if (nameParts.length >= 2) {
+                    initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+                } else {
+                    initials = currentUser.name.substring(0, 2).toUpperCase();
+                }
+                userAvatar.textContent = initials.toUpperCase();
+                userName.textContent = currentUser.name;
+            }
+        }
 
-        window.navigateTo = function(page) { if (!isLoggedIn) { showLoginPage(); return; } document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(page + '-page').classList.add('active'); document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active')); document.getElementById('nav-' + page).classList.add('active'); const backButton = document.getElementById('backButton'); if (page === 'discovery') { backButton.style.display = 'none'; pageHistory = ['discovery']; } else { backButton.style.display = 'flex'; if (pageHistory[pageHistory.length - 1] !== page) pageHistory.push(page); } currentPage = page; if (page === 'dashboard') { refreshDashboardUI(); updatePartnerList(); } if (page === 'discovery') initializeDiscovery(); showToast('📍 Navigated to ' + (page === 'discovery' ? 'Restaurant Discovery' : 'My Dashboard')); };
+        window.navigateTo = function(page) { 
+            if (!isLoggedIn) { showLoginPage(); return; } 
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+            document.getElementById(page + '-page').classList.add('active'); 
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active')); 
+            if (page === 'discovery' || page === 'dashboard') {
+                document.getElementById('nav-' + page).classList.add('active');
+            }
+            const backButton = document.getElementById('backButton'); 
+            if (page === 'discovery') { 
+                backButton.style.display = 'none'; 
+                pageHistory = ['discovery']; 
+            } else { 
+                backButton.style.display = 'flex'; 
+                if (pageHistory[pageHistory.length - 1] !== page) pageHistory.push(page); 
+            } 
+            currentPage = page; 
+            if (page === 'dashboard') { 
+                refreshDashboardUI(); 
+                updatePartnerList(); 
+            } 
+            if (page === 'discovery') initializeDiscovery(); 
+            if (page === 'profile') updateProfilePage();
+            showToast('📍 Navigated to ' + page.charAt(0).toUpperCase() + page.slice(1)); 
+        };
 
-        window.goBack = function() { if (pageHistory.length > 1) { pageHistory.pop(); const previousPage = pageHistory[pageHistory.length - 1]; navigateTo(previousPage); } else { navigateTo('discovery'); } };
+        window.goBack = function() { 
+            if (pageHistory.length > 1) { 
+                pageHistory.pop(); 
+                const previousPage = pageHistory[pageHistory.length - 1]; 
+                navigateTo(previousPage); 
+            } else { 
+                navigateTo('discovery'); 
+            } 
+        };
 
-        function updatePartnerList() { /* ... same ... */ const partnerList = document.getElementById('partnerRestaurantsList'); if (!partnerList) return; if (partnerRestaurants.length === 0) { partnerList.innerHTML = `<div style="background: #f8fbf8; padding: 1rem; border-radius: 16px; text-align: center; width: 100%;"><p style="color: #5e7e5e;">No partner restaurants yet. <button onclick="navigateTo('discovery')" style="background: none; border: none; color: #1e4a1e; font-weight: 600; cursor: pointer;">Find partners →</button></p></div>`; return; } let html = ''; partnerRestaurants.forEach(p => { const restaurant = restaurants.find(r => r.name === p.name) || { rating: 4.5, image: '' }; html += `<div style="background: #f8fbf8; padding: 0.8rem 1.2rem; border-radius: 60px; display: flex; align-items: center; gap: 10px; border: 1px solid #d0e0d0;"><div style="width: 32px; height: 32px; background: #1e4a1e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;"><i class="fas fa-utensils"></i></div><span style="font-weight: 600;">${p.name}</span><span style="color: #f0b34b;"><i class="fas fa-star"></i> ${restaurant.rating || 4.5}</span><span style="background: #2ecc71; width: 8px; height: 8px; border-radius: 50%;"></span></div>`; }); partnerList.innerHTML = html; }
+        function updatePartnerList() { const partnerList = document.getElementById('partnerRestaurantsList'); if (!partnerList) return; if (partnerRestaurants.length === 0) { partnerList.innerHTML = `<div style="background: #f8fbf8; padding: 1rem; border-radius: 16px; text-align: center; width: 100%;"><p style="color: #5e7e5e;">No partner restaurants yet. <button onclick="navigateTo('discovery')" style="background: none; border: none; color: #1e4a1e; font-weight: 600; cursor: pointer;">Find partners →</button></p></div>`; return; } let html = ''; partnerRestaurants.forEach(p => { const restaurant = restaurants.find(r => r.name === p.name) || { rating: 4.5, image: '' }; html += `<div style="background: #f8fbf8; padding: 0.8rem 1.2rem; border-radius: 60px; display: flex; align-items: center; gap: 10px; border: 1px solid #d0e0d0;"><div style="width: 32px; height: 32px; background: #1e4a1e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;"><i class="fas fa-utensils"></i></div><span style="font-weight: 600;">${p.name}</span><span style="color: #f0b34b;"><i class="fas fa-star"></i> ${restaurant.rating || 4.5}</span><span style="background: #2ecc71; width: 8px; height: 8px; border-radius: 50%;"></span></div>`; }); partnerList.innerHTML = html; }
 
         window.connectToRestaurant = function(id, event) { if (event) event.stopPropagation(); const restaurant = restaurants.find(r => r.id === id); const existing = partnerRestaurants.find(p => p.name === restaurant.name); if (!existing) { partnerRestaurants.push({ id: id, name: restaurant.name, connected: true }); showToast(`✅ Connected to ${restaurant.name}! They're now your partner.`); updatePartnerList(); const sourceSelect = document.getElementById('donationSource'); if (sourceSelect) { const option = document.createElement('option'); option.value = restaurant.name; option.textContent = restaurant.name; sourceSelect.appendChild(option); } } else { showToast(`🤝 Already connected to ${restaurant.name}`); } };
 
@@ -789,7 +1302,7 @@
 
         function initializeDiscovery() { renderRestaurantGrid(); initializeMap(); }
 
-        function renderRestaurantGrid() { /* same */ const grid = document.getElementById('restaurantGrid'); if (!grid) return; let filtered = filterRestaurantsData(); if (filtered.length === 0) { grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem;"><i class="fas fa-search" style="font-size: 3rem; color: #a0c0a0; margin-bottom: 1rem;"></i><h3 style="color: #1e3a1e;">No restaurants found</h3><p style="color: #5e7e5e;">Try adjusting your filters</p></div>`; return; } let html = ''; filtered.forEach(r => { const isOpen = r.open ? 'open' : 'closed'; const openStatus = r.open ? 'Open now' : 'Closed'; const openIcon = r.open ? 'fa-door-open' : 'fa-door-closed'; const isPartner = partnerRestaurants.some(p => p.name === r.name); html += `<div class="restaurant-card" onclick="viewRestaurantProfile(${r.id})"><div class="restaurant-image" style="background-image: url('${r.image}')">${r.live ? '<span class="live-indicator-small"><i class="fas fa-circle"></i> LIVE</span>' : ''}${r.verified ? '<span class="restaurant-badge verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}${r.new ? '<span class="restaurant-badge new"><i class="fas fa-star"></i> New</span>' : ''}${isPartner ? '<span class="restaurant-badge" style="background: #f0b34b; right: 16px; top: 60px;"><i class="fas fa-handshake"></i> Partner</span>' : ''}</div><div class="restaurant-info"><div class="restaurant-header"><span class="restaurant-name">${r.name}</span><span class="restaurant-rating"><i class="fas fa-star" style="color: #f0b34b;"></i> ${r.rating}</span></div><div class="restaurant-cuisine">${r.cuisine.map(c => `<span class="cuisine-tag">${c}</span>`).join('')}</div><div class="restaurant-location"><i class="fas fa-map-marker-alt"></i> ${r.location} • ${r.distance}</div><div class="restaurant-stats"><div class="stat-item"><div class="stat-value">${r.stats.donated}kg</div><div class="stat-label">Donated</div></div><div class="stat-item"><div class="stat-value">${r.stats.meals}</div><div class="stat-label">Meals</div></div><div class="stat-item"><div class="stat-value">${r.stats.co2}kg</div><div class="stat-label">CO₂ Saved</div></div></div><div class="restaurant-footer"><span class="open-status ${isOpen}"><i class="fas ${openIcon}"></i> ${openStatus}</span>${isPartner ? '<button class="collect-btn" onclick="collectFromPartner(' + r.id + ', event)"><i class="fas fa-hand-holding-heart"></i> Collect Food</button>' : '<button class="connect-btn" onclick="connectToRestaurant(' + r.id + ', event)"><i class="fas fa-handshake"></i> Connect</button>'}</div></div></div>`; }); grid.innerHTML = html; }
+        function renderRestaurantGrid() { const grid = document.getElementById('restaurantGrid'); if (!grid) return; let filtered = filterRestaurantsData(); if (filtered.length === 0) { grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem;"><i class="fas fa-search" style="font-size: 3rem; color: #a0c0a0; margin-bottom: 1rem;"></i><h3 style="color: #1e3a1e;">No restaurants found</h3><p style="color: #5e7e5e;">Try adjusting your filters</p></div>`; return; } let html = ''; filtered.forEach(r => { const isOpen = r.open ? 'open' : 'closed'; const openStatus = r.open ? 'Open now' : 'Closed'; const openIcon = r.open ? 'fa-door-open' : 'fa-door-closed'; const isPartner = partnerRestaurants.some(p => p.name === r.name); html += `<div class="restaurant-card" onclick="viewRestaurantProfile(${r.id})"><div class="restaurant-image" style="background-image: url('${r.image}')">${r.live ? '<span class="live-indicator-small"><i class="fas fa-circle"></i> LIVE</span>' : ''}${r.verified ? '<span class="restaurant-badge verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}${r.new ? '<span class="restaurant-badge new"><i class="fas fa-star"></i> New</span>' : ''}${isPartner ? '<span class="restaurant-badge" style="background: #f0b34b; right: 16px; top: 60px;"><i class="fas fa-handshake"></i> Partner</span>' : ''}</div><div class="restaurant-info"><div class="restaurant-header"><span class="restaurant-name">${r.name}</span><span class="restaurant-rating"><i class="fas fa-star" style="color: #f0b34b;"></i> ${r.rating}</span></div><div class="restaurant-cuisine">${r.cuisine.map(c => `<span class="cuisine-tag">${c}</span>`).join('')}</div><div class="restaurant-location"><i class="fas fa-map-marker-alt"></i> ${r.location} • ${r.distance}</div><div class="restaurant-stats"><div class="stat-item"><div class="stat-value">${r.stats.donated}kg</div><div class="stat-label">Donated</div></div><div class="stat-item"><div class="stat-value">${r.stats.meals}</div><div class="stat-label">Meals</div></div><div class="stat-item"><div class="stat-value">${r.stats.co2}kg</div><div class="stat-label">CO₂ Saved</div></div></div><div class="restaurant-footer"><span class="open-status ${isOpen}"><i class="fas ${openIcon}"></i> ${openStatus}</span>${isPartner ? '<button class="collect-btn" onclick="collectFromPartner(' + r.id + ', event)"><i class="fas fa-hand-holding-heart"></i> Collect Food</button>' : '<button class="connect-btn" onclick="connectToRestaurant(' + r.id + ', event)"><i class="fas fa-handshake"></i> Connect</button>'}</div></div></div>`; }); grid.innerHTML = html; }
 
         window.collectFromPartner = function(id, event) { event.stopPropagation(); const restaurant = restaurants.find(r => r.id === id); if (restaurant.donations && restaurant.donations.length > 0) { const donation = restaurant.donations[0]; collectDonation(id, donation.item, donation.kg, event); } else { collectDonation(id, "Assorted Food", 2.0, event); } };
 
@@ -806,7 +1319,7 @@
 
         window.viewRestaurantProfile = function(id) { const restaurant = restaurants.find(r => r.id === id); if (!restaurant) return; selectedRestaurant = restaurant; const isPartner = partnerRestaurants.some(p => p.name === restaurant.name); const profileHtml = `<div class="restaurant-profile"><div class="profile-cover" style="background-image: url('${restaurant.image}')"><div class="profile-cover-overlay"><h1>${restaurant.name} ${isPartner ? '<span style="background: #f0b34b; padding: 5px 15px; border-radius: 40px; font-size: 0.9rem; margin-left: 1rem;"><i class="fas fa-handshake"></i> Partner</span>' : ''}</h1><div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;"><span><i class="fas fa-star" style="color: #f0b34b;"></i> ${restaurant.rating} (${restaurant.reviews} reviews)</span><span><i class="fas fa-map-marker-alt"></i> ${restaurant.distance}</span><span class="${restaurant.open ? 'open' : 'closed'}" style="color: ${restaurant.open ? '#2ecc71' : '#e74c3c'};"><i class="fas ${restaurant.open ? 'fa-door-open' : 'fa-door-closed'}"></i> ${restaurant.open ? 'Open Now' : 'Closed'}</span></div></div></div><div class="profile-content"><div><div class="profile-section"><h2><i class="fas fa-info-circle"></i> About</h2><div class="info-grid"><div class="info-item"><i class="fas fa-utensils"></i><div><strong>Cuisine</strong><br>${restaurant.cuisine.join(' • ')}</div></div><div class="info-item"><i class="fas fa-clock"></i><div><strong>Hours</strong><br>${restaurant.hours}</div></div><div class="info-item"><i class="fas fa-map-pin"></i><div><strong>Location</strong><br>${restaurant.location}</div></div><div class="info-item"><i class="fas fa-hand-holding-heart"></i><div><strong>Partner Since</strong><br>${restaurant.new ? '2024' : '2023'}</div></div></div></div><div class="profile-section"><h2><i class="fas fa-box-open"></i> Available for Collection</h2>${restaurant.donations.map(d => `<div class="donation-item"><div><h4>${d.item}</h4><p><i class="fas fa-weight"></i> ${d.kg}kg • ${d.portions} portions</p><p><i class="far fa-clock"></i> Pickup by: ${d.pickup}</p></div>${isPartner ? `<button class="collect-donation-btn" onclick="collectDonation(${restaurant.id}, '${d.item}', ${d.kg}, event)"><i class="fas fa-hand-holding-heart"></i> Collect</button>` : `<button class="request-btn" onclick="connectToRestaurant(${restaurant.id}, event)"><i class="fas fa-handshake"></i> Connect First</button>`}</div>`).join('')}</div><div class="profile-section"><h2><i class="fas fa-star"></i> Reviews</h2>${restaurant.reviews.map(r => `<div class="review-card"><div class="review-header"><span class="reviewer-name">${r.user}</span><span class="review-rating">${'⭐'.repeat(r.rating)}</span></div><p style="color: #5e7e5e;">${r.comment}</p></div>`).join('')}</div></div><div><div class="profile-section"><h2><i class="fas fa-chart-bar"></i> Impact Stats</h2><div style="background: #f8fbf8; padding: 1.5rem; border-radius: 20px;"><div style="margin-bottom: 1rem;"><div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>Total Donated</span><span style="font-weight: 700;">${restaurant.stats.donated} kg</span></div><div class="meter-track"><div class="meter-fill-pro" style="width: 75%;"></div></div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"><div style="text-align: center;"><div style="font-size: 1.5rem; font-weight: 700; color: #1e4a1e;">${restaurant.stats.meals}</div><div style="font-size: 0.8rem; color: #5e7e5e;">Meals Served</div></div><div style="text-align: center;"><div style="font-size: 1.5rem; font-weight: 700; color: #1e4a1e;">${restaurant.stats.co2}kg</div><div style="font-size: 0.8rem; color: #5e7e5e;">CO₂ Saved</div></div></div></div></div><div class="profile-section"><h2><i class="fas fa-handshake"></i> Actions</h2><div style="display: flex; flex-direction: column; gap: 10px;">${isPartner ? `<button class="btn-pro" onclick="collectFromPartner(${restaurant.id}, event)" style="width: 100%;"><i class="fas fa-hand-holding-heart"></i> Collect Food Now</button>` : `<button class="btn-pro" onclick="connectToRestaurant(${restaurant.id}, event)" style="width: 100%;"><i class="fas fa-handshake"></i> Connect as Partner</button>`}<button class="btn-pro btn-outline-pro" onclick="goBack()" style="width: 100%;"><i class="fas fa-arrow-left"></i> Back to List</button></div></div></div></div></div>`; document.getElementById('restaurantGrid').style.display = 'none'; document.getElementById('mapContainer').style.display = 'none'; const profileDiv = document.getElementById('restaurantProfile'); profileDiv.innerHTML = profileHtml; profileDiv.style.display = 'block'; document.getElementById('backButton').style.display = 'flex'; };
 
-        function refreshDashboardUI() { /* ... same ... */ let stats = computeStats(); document.getElementById('proDonated').innerText = stats.donated.toFixed(1); document.getElementById('proWaste').innerText = stats.wasted.toFixed(1); document.getElementById('proDiverted').innerText = stats.diverted.toFixed(0); document.getElementById('proCo2').innerText = stats.co2.toFixed(1); document.getElementById('proCo2Badge').innerText = stats.co2.toFixed(1); document.getElementById('proStatCo2').innerText = stats.co2.toFixed(1) + ' kg'; document.getElementById('partnerCount').innerText = partnerRestaurants.length; let fillPercent = Math.min(100, stats.diverted); document.getElementById('proMeterFill').style.width = fillPercent + '%'; document.getElementById('proMeterLabel').innerText = fillPercent.toFixed(0) + '%'; document.getElementById('proThresholdValue').innerText = thresholdKg + ' kg'; document.getElementById('proStatThreshold').innerText = thresholdKg + ' kg'; document.getElementById('proAlertThresholdDisplay').innerText = thresholdKg + ' kg limit'; let newAlert = (stats.wasted >= thresholdKg) && buzzerEnabled; let wasteCard = document.getElementById('proWasteCard'); let alertBadge = document.getElementById('proAlertBadge'); let alertBar = document.getElementById('proAlertBar'); let alertIcon = document.getElementById('proAlertIcon'); let alertMessage = document.getElementById('proAlertMessage'); let buzzerVisual = document.getElementById('proBuzzerVisual'); let buzzerState = document.getElementById('proBuzzerState'); if (newAlert) { wasteCard.classList.add('warning-mode'); alertBadge.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ALERT · LIMIT EXCEEDED'; alertBadge.style.background = '#fed7d7'; alertBadge.style.color = '#c0392b'; alertBar.classList.add('warning-level'); alertIcon.style.color = '#c0392b'; alertIcon.className = 'fas fa-exclamation-triangle'; alertMessage.innerText = '⚠️ CRITICAL: Waste exceeds threshold! Buzzer active.'; buzzerVisual.innerHTML = '<i class="fas fa-bell"></i> ALERT'; buzzerVisual.style.background = '#c0392b'; buzzerVisual.style.color = 'white'; buzzerState.innerText = 'ALERT'; buzzerState.style.color = '#c0392b'; buzzerState.style.fontWeight = '800'; if (!alertActive) playProBuzzer(); else playProBuzzer(); alertActive = true; } else { wasteCard.classList.remove('warning-mode'); alertBadge.innerHTML = '<i class="fas fa-shield-alt"></i> NORMAL'; alertBadge.style.background = '#edf2f7'; alertBadge.style.color = '#1e2e1e'; alertBar.classList.remove('warning-level'); alertIcon.style.color = '#f0b34b'; alertIcon.className = 'fas fa-bell'; alertMessage.innerText = 'Waste below threshold. All systems normal.'; buzzerVisual.innerHTML = '<i class="fas fa-check"></i> OK'; buzzerVisual.style.background = '#c8e0c8'; buzzerVisual.style.color = '#1e4a1e'; buzzerState.innerText = 'ARMED'; buzzerState.style.color = '#1e3a1e'; buzzerState.style.fontWeight = '600'; alertActive = false; } renderCollectedFoodTable(); renderWasteTable(); }
+        function refreshDashboardUI() { let stats = computeStats(); document.getElementById('proDonated').innerText = stats.donated.toFixed(1); document.getElementById('proWaste').innerText = stats.wasted.toFixed(1); document.getElementById('proDiverted').innerText = stats.diverted.toFixed(0); document.getElementById('proCo2').innerText = stats.co2.toFixed(1); document.getElementById('proCo2Badge').innerText = stats.co2.toFixed(1); document.getElementById('proStatCo2').innerText = stats.co2.toFixed(1) + ' kg'; document.getElementById('partnerCount').innerText = partnerRestaurants.length; let fillPercent = Math.min(100, stats.diverted); document.getElementById('proMeterFill').style.width = fillPercent + '%'; document.getElementById('proMeterLabel').innerText = fillPercent.toFixed(0) + '%'; document.getElementById('proThresholdValue').innerText = thresholdKg + ' kg'; document.getElementById('proStatThreshold').innerText = thresholdKg + ' kg'; document.getElementById('proAlertThresholdDisplay').innerText = thresholdKg + ' kg limit'; let newAlert = (stats.wasted >= thresholdKg) && buzzerEnabled; let wasteCard = document.getElementById('proWasteCard'); let alertBadge = document.getElementById('proAlertBadge'); let alertBar = document.getElementById('proAlertBar'); let alertIcon = document.getElementById('proAlertIcon'); let alertMessage = document.getElementById('proAlertMessage'); let buzzerVisual = document.getElementById('proBuzzerVisual'); let buzzerState = document.getElementById('proBuzzerState'); if (newAlert) { wasteCard.classList.add('warning-mode'); alertBadge.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ALERT · LIMIT EXCEEDED'; alertBadge.style.background = '#fed7d7'; alertBadge.style.color = '#c0392b'; alertBar.classList.add('warning-level'); alertIcon.style.color = '#c0392b'; alertIcon.className = 'fas fa-exclamation-triangle'; alertMessage.innerText = '⚠️ CRITICAL: Waste exceeds threshold! Buzzer active.'; buzzerVisual.innerHTML = '<i class="fas fa-bell"></i> ALERT'; buzzerVisual.style.background = '#c0392b'; buzzerVisual.style.color = 'white'; buzzerState.innerText = 'ALERT'; buzzerState.style.color = '#c0392b'; buzzerState.style.fontWeight = '800'; if (!alertActive) playProBuzzer(); else playProBuzzer(); alertActive = true; } else { wasteCard.classList.remove('warning-mode'); alertBadge.innerHTML = '<i class="fas fa-shield-alt"></i> NORMAL'; alertBadge.style.background = '#edf2f7'; alertBadge.style.color = '#1e2e1e'; alertBar.classList.remove('warning-level'); alertIcon.style.color = '#f0b34b'; alertIcon.className = 'fas fa-bell'; alertMessage.innerText = 'Waste below threshold. All systems normal.'; buzzerVisual.innerHTML = '<i class="fas fa-check"></i> OK'; buzzerVisual.style.background = '#c8e0c8'; buzzerVisual.style.color = '#1e4a1e'; buzzerState.innerText = 'ARMED'; buzzerState.style.color = '#1e3a1e'; buzzerState.style.fontWeight = '600'; alertActive = false; } renderCollectedFoodTable(); renderWasteTable(); }
         function computeStats() { let donated = collectedFood.reduce((acc, d) => acc + d.kg, 0); let wasted = wasteLogs.reduce((acc, w) => acc + w.kg, 0); let total = donated + wasted; let diverted = total === 0 ? 0 : (donated / total) * 100; let co2 = donated * 2.5; return { donated, wasted, diverted, co2 }; }
         function renderCollectedFoodTable() { let container = document.getElementById('proDonationTable'); if (!container) return; if (collectedFood.length === 0) { container.innerHTML = `<div class="empty-state-pro"><i class="fas fa-box-open" style="font-size: 1.8rem; margin-bottom: 12px; display: block; color: #a0c0a0;"></i> <span style="font-weight: 600;">No food collected yet</span><br><span style="font-size: 0.8rem;">Go to Discovery and collect from partner restaurants</span></div>`; return; } let html = ''; [...collectedFood].sort((a, b) => b.id.localeCompare(a.id)).forEach(d => { html += `<div class="table-row-pro"><div><div class="row-primary"><i class="fas fa-carrot" style="color: #1e4a1e;"></i> ${escapeHTML(d.name)}</div><div class="row-secondary"><span class="source-badge"><i class="fas fa-utensils"></i> ${d.source}</span><span><i class="far fa-clock"></i> just now</span></div></div><div style="display: flex; align-items: center; gap: 16px;"><span class="weight-badge">${d.kg.toFixed(1)} kg</span><button class="delete-pro" onclick="deleteCollectedItem('${d.id}')"><i class="fas fa-trash-alt"></i></button></div></div>`; }); container.innerHTML = html; }
         function renderWasteTable() { let container = document.getElementById('proWasteTable'); if (!container) return; if (wasteLogs.length === 0) { container.innerHTML = `<div class="empty-state-pro"><i class="fas fa-receipt" style="font-size: 1.8rem; margin-bottom: 12px; display: block; color: #c0a0a0;"></i> <span style="font-weight: 600;">No waste entries</span><br><span style="font-size: 0.8rem;">Log waste to track your impact</span></div>`; return; } let html = ''; [...wasteLogs].sort((a, b) => b.id.localeCompare(a.id)).forEach(w => { html += `<div class="table-row-pro"><div><div class="row-primary"><i class="fas fa-trash" style="color: #8b4e4e;"></i> ${escapeHTML(w.name)}</div><div class="row-secondary"><i class="far fa-clock"></i> just now</div></div><div style="display: flex; align-items: center; gap: 16px;"><span class="weight-badge" style="background: #fde7e7; color: #8b4e4e;">${w.kg.toFixed(1)} kg</span><button class="delete-pro" onclick="deleteWasteItem('${w.id}')"><i class="fas fa-trash-alt"></i></button></div></div>`; }); container.innerHTML = html; }
